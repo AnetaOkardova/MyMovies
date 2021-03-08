@@ -1,0 +1,41 @@
+﻿@*@model MyMovies.Models.Movie*@
+@model List<MyMovies.Models.Movie>
+
+
+
+@*@{
+        var a = 2;
+        var b = 3;
+        var sum = a + b;
+
+        var c = SumNumbers(a, b);
+
+        int SumNumbers(int a, int b)
+        {
+            return a + b;
+        }
+    }*@
+
+
+
+
+<!Doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @*<h1>Welcome to my movies page</h1>
+        <h2>The sum of @ViewData["VarA"] and @ViewBag.VarB equals @ViewBag.VarSum  </h2>
+        <h2>Current time is: @ViewBag.CurrentDate</h2>*@
+
+    @foreach (var movie in @Model){
+    <h1>The title of the movie is: @movie.Title</h1>
+    <img src="@movie.ImageURL" alt="Alternate Text" />
+    }
+
+    @*<h1>The title of the movie is: @Model.Title</h1>
+    <img src="@Model.ImageURL" alt="Alternate Text" />*@
+
+</body>
+</html>
