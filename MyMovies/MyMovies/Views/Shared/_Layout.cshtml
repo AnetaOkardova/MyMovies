@@ -1,0 +1,47 @@
+﻿<!Doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class=" row justify-content-between">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid">
+                <div class="col-9">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="navbar-brand" href="#">My movies</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/Movies/Overview">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/Info/AboutUs">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/Info/ContactUs">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <form class="d-flex" style="">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+       @RenderBody()
+    </div>
+</body>
+</html>

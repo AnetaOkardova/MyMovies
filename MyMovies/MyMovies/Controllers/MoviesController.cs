@@ -9,26 +9,16 @@ namespace MyMovies.Controllers
 {
     public class MoviesController : Controller
     {
-        public IActionResult Index()
+        public List<Movie> _movies { get; set; }
+        public MoviesController()
         {
-
-            //ViewBag.CurrentDate = DateTime.Now;
-            //var a = 2;
-            //var b = 3;
-            //var sum = a + b;
-
-            //ViewData["VarA"] = a;
-            //ViewBag.VarA = a;
-            //ViewBag.VarB = b;
-            //ViewBag.Sum = sum;
-
             var movie = new Movie()
             {
                 Id = 1,
                 Title = "Home alone",
                 Genre = "Comedy",
                 Description = "Sth",
-                Duration = 120,
+                Duration = 100,
                 ImageURL = "https://m.media-amazon.com/images/M/MV5BMzFkM2YwOTQtYzk2Mi00N2VlLWE3NTItN2YwNDg1YmY0ZDNmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
             };
             var movie2 = new Movie()
@@ -37,12 +27,24 @@ namespace MyMovies.Controllers
                 Title = "Home alone",
                 Genre = "Comedy",
                 Description = "Sth",
-                Duration = 120,
+                Duration = 150,
                 ImageURL = "https://m.media-amazon.com/images/M/MV5BMzFkM2YwOTQtYzk2Mi00N2VlLWE3NTItN2YwNDg1YmY0ZDNmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
             };
-            var movies = new List<Movie> { movie, movie2 };
-
-            return View(movies);
+            _movies = new List<Movie> { movie, movie2 };
+        }
+        public IActionResult Details(int id)
+        {
+            var movie = _movies.FirstOrDefault(x => x.Id == id);
+            if (movie == null)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+            return View(movie);
+        }
+            
+        public IActionResult Overview()
+        {
+            return View(_movies);
         }
     }
 }
