@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyMovies.Models
 {
@@ -13,7 +10,5 @@ namespace MyMovies.Models
         public string Description { get; set; }
         public int Duration { get; set; }
         public string ImageURL { get; set; }
-
-
     }
 }
