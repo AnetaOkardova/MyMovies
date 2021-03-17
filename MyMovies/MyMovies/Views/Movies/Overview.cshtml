@@ -1,4 +1,6 @@
-﻿@model List<MyMovies.Models.Movie>
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model List<MyMovies.Models.Movie>
 @*@{
         Layout = null;
     }*@
@@ -14,7 +16,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@movie.Title</h5>
                     <p class="card-text">Genre: @movie.Genre/Duration: @movie.Duration</p>
-                    <a href="/Movies/Details/@movie.Id" class="btn btn-primary">See description</a>
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">See description</a>
                 </div>
             </div>
         </div>

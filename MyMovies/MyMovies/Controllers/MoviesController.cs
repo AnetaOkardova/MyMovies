@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyMovies.Models;
 using MyMovies.Services;
+using MyMovies.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace MyMovies.Controllers
 {
     public class MoviesController : Controller
     {
-        private MoviesService _service { get; set; }
-        public MoviesController()
+        private IMoviesService _service { get; set; }
+        public MoviesController(IMoviesService service)
         {
-            _service = new MoviesService();
+            _service = service;
         }
         public IActionResult Details(int id)
         {
@@ -30,6 +31,21 @@ namespace MyMovies.Controllers
             var movies = _service.GetAllMovies();
             return View(movies);
         }
-        
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Movie movie)
+        {
+            if (ModelState.IsValid)
+            {
+                _service.CreateMovie(movie);
+                return RedirectToAction("Overview");
+            }
+            return View(movie);
+        }
+
     }
 }

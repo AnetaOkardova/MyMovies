@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using MyMovies.Models;
-using MyMovies.Repository;
+using MyMovies.Repository.Interfaces;
+using MyMovies.Services.Interfaces;
 
 namespace MyMovies.Services
 {
-    public class MoviesService
+    public class MoviesService : IMoviesService
     {
-        private MoviesRepository _moviesRepository { get; set; }
-        public MoviesService()
+        private IMoviesRepository _moviesRepository { get; set; }
+        public MoviesService(IMoviesRepository moviesRepository)
         {
-            _moviesRepository = new MoviesRepository();
+            _moviesRepository = moviesRepository;
         }
         public List<Movie> GetAllMovies()
         {
@@ -18,6 +19,10 @@ namespace MyMovies.Services
         public Movie GetMovieById(int id)
         {
             return _moviesRepository.GetById(id);
+        }
+        public void CreateMovie(Movie movie)
+        {
+            _moviesRepository.Add(movie);
         }
     }
 }

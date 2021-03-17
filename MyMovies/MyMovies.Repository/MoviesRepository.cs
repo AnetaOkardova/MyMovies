@@ -1,11 +1,12 @@
 ﻿using MyMovies.Models;
+using MyMovies.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MyMovies.Repository
 {
-    public class MoviesRepository
+    public class MoviesRepository : IMoviesRepository
     {
         public List<Movie> _movies { get; set; }
         public MoviesRepository()
@@ -37,6 +38,22 @@ namespace MyMovies.Repository
         public Movie GetById(int id)
         {
             return _movies.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void Add(Movie movie)
+        {
+            movie.Id = GenerateId();
+            _movies.Add(movie);
+        }
+
+        private int GenerateId()
+        {
+            var maxId = 0;
+            if (_movies.Any())
+            {
+                maxId = _movies.Max(x => x.Id);
+            }
+            return maxId + 1;
         }
     }
 }
