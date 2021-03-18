@@ -55,5 +55,10 @@ namespace MyMovies.Repository
             }
             return maxId + 1;
         }
+
+        public List<Movie> GetByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

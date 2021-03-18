@@ -55,5 +55,10 @@ namespace MyMovies.Repository
             var serilized = JsonConvert.SerializeObject(Movies);
             File.WriteAllText(Path, serilized);
         }
+
+        public List<Movie> GetByTitle(string title)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

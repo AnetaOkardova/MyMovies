@@ -84,31 +84,34 @@ namespace MyMovies.Repository
                 return movie;
             }
         }
-        public Movie GetByTitle(string title)
+        public List<Movie> GetByTitle(string title)
         {
-            Movie movie = null;
+            var movies = new List<Movie>();
             using (var cnn = new SqlConnection("Server=(localDb)\\MSSQLLocalDB;Database= MyMoviesSql; Trusted_Connection=True;"))
             {
                 cnn.Open();
 
-                var query = $"select * from movies where id = @Title";
+                var query = "select * from movies where title like @Title";
                 var cmd = new SqlCommand(query, cnn);
-                cmd.Parameters.AddWithValue("@Title", title);
+                cmd.Parameters.AddWithValue("@Title", $"%{title}%");
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    movie = new Movie();
+                    var movie = new Movie();
+
                     movie.Id = reader.GetInt32(0);
                     movie.Title = reader.GetString(1);
                     movie.Genre = reader.GetString(2);
                     movie.Description = reader.GetString(3);
                     movie.Duration = reader.GetInt32(4);
                     movie.ImageURL = reader.GetString(5);
+
+                    movies.Add(movie);
                 }
 
-                return movie;
-            }
+                return movies;
+            };
         }
     }
 }

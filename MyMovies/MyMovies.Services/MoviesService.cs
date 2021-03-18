@@ -24,5 +24,17 @@ namespace MyMovies.Services
         {
             _moviesRepository.Add(movie);
         }
+
+        public List<Movie> GetMoviesByTitle(string title)
+        {
+            if(title == null)
+            {
+                return _moviesRepository.GetAll();
+            }
+            else
+            {
+                return _moviesRepository.GetByTitle(title);
+            }
+        }
     }
 }

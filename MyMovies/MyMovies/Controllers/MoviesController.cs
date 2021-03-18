@@ -25,10 +25,10 @@ namespace MyMovies.Controllers
             }
             return View(movie);
         }
-            
-        public IActionResult Overview()
+
+        public IActionResult Overview(string title)
         {
-            var movies = _service.GetAllMovies();
+            var movies = _service.GetMoviesByTitle(title);
             return View(movies);
         }
         [HttpGet]

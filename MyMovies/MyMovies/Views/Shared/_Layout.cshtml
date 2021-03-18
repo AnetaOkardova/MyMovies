@@ -1,4 +1,6 @@
-﻿<!Doctype html>
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!Doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@ViewBag.Title</title>
@@ -33,9 +35,9 @@
                 </div>
                 <div class="col-3">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <form class="d-flex" style="">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        <form asp-controller="Movies" asp-action="Overview" method="get" class="d-flex" style="">
+                            <input class="form-control me-2" name="Title" value=""  type="text" placeholder="Search by title">
+                            <input class="btn btn-outline-success" value="Search" type="submit" />
                         </form>
                     </div>
                 </div>
@@ -44,7 +46,7 @@
     </div>
 
     <div class="container-fluid">
-       @RenderBody()
+        @RenderBody()
     </div>
 </body>
 </html>
