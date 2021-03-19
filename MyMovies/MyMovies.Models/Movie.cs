@@ -24,5 +24,7 @@ namespace MyMovies.Models
 
         [Required]
         public string ImageURL { get; set; }
+        [Required]
+        public DateTime DateCreated { get; set; }
     }
 }
