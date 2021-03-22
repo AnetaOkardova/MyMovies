@@ -29,6 +29,11 @@ namespace MyMovies.Repository
             };
         }
 
+        public void Delete(Movie movie)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Movie> GetAll()
         {
             var movies = new List<Movie>();
@@ -112,6 +117,11 @@ namespace MyMovies.Repository
 
                 return movies;
             };
+        }
+
+        public void Update(Movie movie)
+        {
+            throw new NotImplementedException();
         }
     }
 }

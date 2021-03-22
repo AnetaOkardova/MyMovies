@@ -2,10 +2,10 @@
 @model MyMovies.Models.Movie
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Update";
 }
 
-<form asp-controller="Movies" asp-action="Create" method="post" style="width: 80%">
+<form asp-controller="Movies" asp-action="Update" method="post" style="width: 80%">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label class="control-label" asp-for="Title">Title</label>
@@ -29,13 +29,12 @@
         <span asp-validation-for="Duration" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label class="control-label" asp-for="ImageURL">Image URL</label>
+        <label class="control-label" asp-for="ImageURL">ImageURL</label>
         <input type="text" asp-for="ImageURL" class="form-control" />
         <span asp-validation-for="ImageURL" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
-
 

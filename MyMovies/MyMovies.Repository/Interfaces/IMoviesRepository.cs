@@ -12,5 +12,7 @@ namespace MyMovies.Repository.Interfaces
 
         Movie GetById(int id);
         void Add(Movie movie);
+        void Delete(Movie movie);
+        void Update(Movie movie);
     }
 }

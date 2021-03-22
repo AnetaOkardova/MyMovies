@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MyMovies.Common.Exceptions;
 using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
 using MyMovies.Services.Interfaces;
@@ -34,6 +35,31 @@ namespace MyMovies.Services
             else
             {
                 return _moviesRepository.GetByTitle(title);
+            }
+        }
+
+        public void Delete(int id)
+        {
+            var movie = _moviesRepository.GetById(id);
+            if (movie == null)
+            {
+                throw new MoviesException($"The movie with ID {id} is not found.");
+            }
+            else
+            {
+                _moviesRepository.Delete(movie);
+            }
+        }
+
+        public void Update(Movie movie)
+        {
+            if (movie == null)
+            {
+                throw new MoviesException($"The movie with ID {movie.Id} is not found.");
+            }
+            else
+            {
+                _moviesRepository.Update(movie);
             }
         }
     }
