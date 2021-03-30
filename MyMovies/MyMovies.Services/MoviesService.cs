@@ -10,28 +10,25 @@ namespace MyMovies.Services
 {
     public class MoviesService : IMoviesService
     {
-        private IMoviesRepository _moviesRepository { get; set; }
-        public MoviesService(IMoviesRepository moviesRepository)
+        private readonly IUserRepository _userRepository;
+
+        private readonly IMoviesRepository _moviesRepository;
+        public MoviesService(IMoviesRepository moviesRepository, IUserRepository userRepository)
         {
             _moviesRepository = moviesRepository;
+            _userRepository = userRepository;
         }
 
         public List<Movie> GetAllMovies()
         {
-            var movies = _moviesRepository.GetAll();
-
-            if (movies.Count == 0)
-            {
-                throw new MoviesException("There is no movies at this time");
-            }
-            return movies;
+            return _moviesRepository.GetAll();
         }
         public Movie GetMovieById(int id)
         {
             var movie = _moviesRepository.GetById(id);
             if (movie == null)
             {
-                throw new MoviesException("There is no movie with such ID");
+                throw new MoviesException($"There is no movie with ID {id}");
             }
 
             return movie;
@@ -40,7 +37,7 @@ namespace MyMovies.Services
         {
             if (title == null)
             {
-                return _moviesRepository.GetAll();
+                return GetAllMovies();
             }
             else
             {
@@ -48,7 +45,7 @@ namespace MyMovies.Services
 
                 if (movies.Count == 0)
                 {
-                    throw new MoviesException("There is no movie containing {title} in it's title");
+                    throw new MoviesException($"There is no movie containing {title} in it's title");
                 }
                 return movies;
             }
@@ -58,8 +55,6 @@ namespace MyMovies.Services
         {
             _moviesRepository.Add(movie);
         }
-
-
         public StatusModel Delete(int id)
         {
             var response = new StatusModel();
@@ -79,7 +74,6 @@ namespace MyMovies.Services
             }
             return response;
         }
-
         public StatusModel Update(Movie movie)
         {
             var response = new StatusModel();

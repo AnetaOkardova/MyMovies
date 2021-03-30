@@ -42,6 +42,10 @@ namespace MyMovies.Controllers
             try
             {
                 var movies = _service.GetAllMovies();
+                if (movies.Count == 0)
+                {
+                    ViewBag.Message = $"There are no movies to show at this time.";
+                }
                 ViewBag.SuccessMessage = successMessage;
                 ViewBag.ErrorMessage = errorMessage;
                 return View(movies);
@@ -123,10 +127,6 @@ namespace MyMovies.Controllers
                 }
 
                 return View(movieModel);
-            }
-            catch (MoviesException ex)
-            {
-                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
             }
             catch (Exception)
             {

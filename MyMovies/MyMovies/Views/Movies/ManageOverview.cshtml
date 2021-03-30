@@ -3,43 +3,51 @@
 @{
     ViewBag.Title = "Manage movie";
 }
-
-@if (ViewBag.SuccessMessage != null)
+@if (ViewBag.Message != null)
 {
     <div class="alert alert-success m-3" role="alert" style="width:800px">
-        @ViewBag.SuccessMessage
+        @ViewBag.Message
     </div>
 }
-@if (ViewBag.ErrorMessage != null)
+else
 {
-    <div class="alert alert-success m-3" role="alert" style="width:800px">
-        @ViewBag.ErrorMessage
-    </div>
-}
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <div class="alert alert-success m-3" role="alert" style="width:800px">
+            @ViewBag.SuccessMessage
+        </div>
+    }
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-success m-3" role="alert" style="width:800px">
+            @ViewBag.ErrorMessage
+        </div>
+    }
 
-<p>
-    <a href="/Movies/Create" class="btn btn-success">Create</a>
-</p>
+    <p>
+        <a href="/Movies/Create" class="btn btn-success">Create</a>
+    </p>
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in Model)
-        {
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
-                <td>@movie.Id</td>
-                <td>@movie.Title</td>
-                <td class="text-center">
-                    <a href="/Movies/Update/@movie.Id" class="text-primary">Modify</a> |
-                    <a href="/Movies/Delete/@movie.Id" class="text-danger">Delete</a>
-                </td>
+                <th>Id</th>
+                <th>Title</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@movie.Id</td>
+                    <td>@movie.Title</td>
+                    <td class="text-center">
+                        <a href="/Movies/Update/@movie.Id" class="text-primary">Modify</a> |
+                        <a href="/Movies/Delete/@movie.Id" class="text-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
