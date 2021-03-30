@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MyMovies.Common.Exceptions;
 using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
+using MyMovies.Services.DtoModels;
 using MyMovies.Services.Interfaces;
 
 namespace MyMovies.Services
@@ -13,54 +15,97 @@ namespace MyMovies.Services
         {
             _moviesRepository = moviesRepository;
         }
+
         public List<Movie> GetAllMovies()
         {
-            return _moviesRepository.GetAll();
+            var movies = _moviesRepository.GetAll();
+
+            if (movies.Count == 0)
+            {
+                throw new MoviesException("There is no movies at this time");
+            }
+            return movies;
         }
         public Movie GetMovieById(int id)
         {
-            return _moviesRepository.GetById(id);
-        }
-        public void CreateMovie(Movie movie)
-        {
-            _moviesRepository.Add(movie);
-        }
+            var movie = _moviesRepository.GetById(id);
+            if (movie == null)
+            {
+                throw new MoviesException("There is no movie with such ID");
+            }
 
+            return movie;
+        }
         public List<Movie> GetMoviesByTitle(string title)
         {
-            if(title == null)
+            if (title == null)
             {
                 return _moviesRepository.GetAll();
             }
             else
             {
-                return _moviesRepository.GetByTitle(title);
+                var movies = _moviesRepository.GetByTitle(title);
+
+                if (movies.Count == 0)
+                {
+                    throw new MoviesException("There is no movie containing {title} in it's title");
+                }
+                return movies;
             }
         }
 
-        public void Delete(int id)
+        public void CreateMovie(Movie movie)
         {
+            _moviesRepository.Add(movie);
+        }
+
+
+        public StatusModel Delete(int id)
+        {
+            var response = new StatusModel();
+
             var movie = _moviesRepository.GetById(id);
             if (movie == null)
             {
-                throw new MoviesException($"The movie with ID {id} is not found.");
+                response.Success = false;
+                response.Message = $"The movie with ID {id} is not found.";
             }
             else
             {
+                response.Success = true;
+                response.Message = $"The movie with ID {id} has been successfully deleted.";
+
                 _moviesRepository.Delete(movie);
             }
+            return response;
         }
 
-        public void Update(Movie movie)
+        public StatusModel Update(Movie movie)
         {
-            if (movie == null)
+            var response = new StatusModel();
+            var movieToUpdate = _moviesRepository.GetById(movie.Id);
+
+
+            if (movieToUpdate == null)
             {
-                throw new MoviesException($"The movie with ID {movie.Id} is not found.");
+                response.Success = false;
+                response.Message = $"The movie with ID {movie.Id} is not found.";
             }
             else
             {
-                _moviesRepository.Update(movie);
+                movieToUpdate.Title = movie.Title;
+                movieToUpdate.ImageURL = movie.ImageURL;
+                movieToUpdate.Description = movie.Description;
+                movieToUpdate.Genre = movie.Genre;
+                movieToUpdate.Duration = movie.Duration;
+                movieToUpdate.DateUpdated = DateTime.Now;
+
+                _moviesRepository.Update(movieToUpdate);
+
+                response.Success = true;
+                response.Message = $"The movie with ID {movie.Id} has been successfully updated.";
             }
+            return response;
         }
     }
 }

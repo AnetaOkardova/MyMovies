@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyMovies.Common.Exceptions;
+using MyMovies.Mappings;
 using MyMovies.Models;
 using MyMovies.Services;
 using MyMovies.Services.Interfaces;
+using MyMovies.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,82 +19,140 @@ namespace MyMovies.Controllers
         {
             _service = service;
         }
-        public IActionResult Details(int id)
-        {
-            var movie = _service.GetMovieById(id);
-            if (movie == null)
-            {
-                return RedirectToAction("ErrorNotFound", "Info");
-            }
-            return View(movie);
-        }
 
         public IActionResult Overview(string title)
         {
-            var movies = _service.GetMoviesByTitle(title);
-            return View(movies);
+            try
+            {
+                var movies = _service.GetMoviesByTitle(title);
+                return View(movies);
+            }
+            catch (MoviesException ex)
+            {
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+
+        }
+        public IActionResult ManageOverview(string successMessage, string errorMessage)
+        {
+            try
+            {
+                var movies = _service.GetAllMovies();
+                ViewBag.SuccessMessage = successMessage;
+                ViewBag.ErrorMessage = errorMessage;
+                return View(movies);
+            }
+            catch (MoviesException ex)
+            {
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
         }
 
-        public IActionResult ManageOverview()
-        {
-            var movies = _service.GetAllMovies();
-            return View(movies);
-        }
+
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Movie movie)
+        public IActionResult Create(CreateMovieModel movieModel)
         {
+            var domainModel = movieModel.ToModel();
             if (ModelState.IsValid)
             {
-                _service.CreateMovie(movie);
+                _service.CreateMovie(domainModel);
                 return RedirectToAction("Overview");
             }
-            return View(movie);
+            return View(movieModel);
         }
 
         public IActionResult Delete(int id)
         {
-            try
+            var response = _service.Delete(id);
+            if (response.Success)
             {
-                _service.Delete(id);
-                return RedirectToAction("ManageOverview");
+                return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
             }
-            catch (MoviesException ex)
+            else
             {
-                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+                return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
             }
-
         }
+
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var movie = _service.GetMovieById(id);
             try
             {
-                return View(movie);
+                var movie = _service.GetMovieById(id);
+                return View(movie.ToUpdateMovieModel());
             }
             catch (MoviesException ex)
             {
                 return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
             }
-
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
         }
         [HttpPost]
-        public IActionResult Update(Movie movie)
+        public IActionResult Update(UpdateMovieModel movieModel)
         {
             try
             {
-                _service.Update(movie);
-                return RedirectToAction("ManageOverview");
+                if (ModelState.IsValid)
+                {
+                    var response = _service.Update(movieModel.ToModel());
+                    if (response.Success)
+                    {
+                        return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+                    }
+                }
+
+                return View(movieModel);
             }
             catch (MoviesException ex)
             {
                 return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
             }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
         }
+        public IActionResult Details(int id)
+        {
+            try
+            {
+                var movie = _service.GetMovieById(id);
+                if (movie == null)
+                {
+                    return RedirectToAction("ErrorNotFound", "Info");
+                }
+                return View(movie.ToMovieDetailsModel());
+            }
+            catch (MoviesException ex)
+            {
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+        }
+
     }
 }

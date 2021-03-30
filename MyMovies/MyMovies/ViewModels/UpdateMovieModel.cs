@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace MyMovies.Models
+namespace MyMovies.ViewModels
 {
-    public class Movie
+    public class UpdateMovieModel
     {
-       
-
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="This title is required :))")]
-        [StringLength(maximumLength:50,MinimumLength =3)]
+        [Required(ErrorMessage = "This title is required :))")]
+        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Required]
@@ -24,9 +25,5 @@ namespace MyMovies.Models
 
         [Required]
         public string ImageURL { get; set; }
-        [Required]
-        public DateTime DateCreated { get; set; }
-        public DateTime? DateUpdated { get; set; }
-
     }
 }

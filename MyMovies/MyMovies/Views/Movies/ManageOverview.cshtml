@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Manage movie";
 }
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success m-3" role="alert" style="width:800px">
+        @ViewBag.SuccessMessage
+    </div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-success m-3" role="alert" style="width:800px">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 <p>
     <a href="/Movies/Create" class="btn btn-success">Create</a>
 </p>
@@ -16,8 +30,8 @@
         </tr>
     </thead>
     <tbody>
-            @foreach (var movie in Model)
-            {
+        @foreach (var movie in Model)
+        {
             <tr>
                 <td>@movie.Id</td>
                 <td>@movie.Title</td>
@@ -27,5 +41,5 @@
                 </td>
             </tr>
         }
-        </tbody>
-    </table>
+    </tbody>
+</table>
