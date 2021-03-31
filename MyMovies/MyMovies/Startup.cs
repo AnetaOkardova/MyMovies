@@ -35,8 +35,8 @@ namespace MyMovies
             //services.AddTransient<IMoviesRepository, MoviesFileRepository>();
             //services.AddTransient<IMoviesRepository, MoviesSqlRepository>();
             services.AddTransient<IMoviesRepository, MoviesRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-
+            services.AddTransient<IUserRepository, UsersRepository>();
+            services.AddTransient<IAuthService, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

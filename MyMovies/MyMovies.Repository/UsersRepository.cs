@@ -2,12 +2,18 @@
 using MyMovies.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyMovies.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUserRepository
     {
+        private MyMoviesDbContext _context { get; set; }
+        public UsersRepository(MyMoviesDbContext context)
+        {
+            _context = context;
+        }
         public void Add(Movie movie)
         {
             throw new NotImplementedException();
@@ -28,12 +34,27 @@ namespace MyMovies.Repository
             throw new NotImplementedException();
         }
 
-        public List<Movie> GetByTitle(string title)
+        public User GetByUsername(string username)
+        {
+            return _context.Users.FirstOrDefault(x => x.Username == username);
+        }
+
+        User IUserRepository.GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Movie movie)
+        public void Add(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(User user)
         {
             throw new NotImplementedException();
         }

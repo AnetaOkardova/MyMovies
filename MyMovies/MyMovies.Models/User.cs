@@ -14,6 +14,7 @@ namespace MyMovies.Models
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Lastname { get; set; }
+        [Key]
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 8)]
         public string Username { get; set; }
@@ -22,8 +23,5 @@ namespace MyMovies.Models
         public string Password { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
-
-
-
     }
 }

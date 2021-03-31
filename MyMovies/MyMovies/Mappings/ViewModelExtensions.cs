@@ -43,5 +43,13 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration
             };
         }
+        public static User ToModel(this SignInModel signInModel)
+        {
+            return new User()
+            {
+                Username = signInModel.Username,
+                Password = signInModel.Password,
+            };
+        }
     }
 }

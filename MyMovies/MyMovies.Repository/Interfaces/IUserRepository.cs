@@ -8,11 +8,10 @@ namespace MyMovies.Repository.Interfaces
     public interface IUserRepository
     {
         List<User> GetAll();
-        List<Movie> GetByTitle(string title);
-
-        Movie GetById(int id);
-        void Add(Movie movie);
-        void Delete(Movie movie);
-        void Update(Movie movie);
+        User GetById(int id);
+        void Add(User user);
+        void Delete(User user);
+        void Update(User user);
+        User GetByUsername(string username);
     }
 }
