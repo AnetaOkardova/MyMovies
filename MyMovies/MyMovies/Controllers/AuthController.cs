@@ -22,7 +22,7 @@ namespace MyMovies.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignIn(SignInModel signInModel)
+        public IActionResult SignIn(SignInModel signInModel, string returnUrl)
         {
 
             var domainModel = signInModel.ToModel();
@@ -31,7 +31,14 @@ namespace MyMovies.Controllers
                var response = _service.SignIn(domainModel.Username, domainModel.Password, signInModel.IsPersistent, HttpContext);
                 if (response.Success)
                 {
-                    return RedirectToAction("Overview", "Movies");
+                    if(returnUrl == null)
+                    {
+                        return RedirectToAction("Overview", "Movies");
+                    }
+                    else
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 else
                 {

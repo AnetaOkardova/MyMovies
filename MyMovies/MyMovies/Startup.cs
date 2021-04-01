@@ -35,6 +35,7 @@ namespace MyMovies
                 options =>
                 {
                     //options.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+                    options.LoginPath = "/Auth/SignIn";
                     //options.SlidingExpiration = false; 
 
                 }

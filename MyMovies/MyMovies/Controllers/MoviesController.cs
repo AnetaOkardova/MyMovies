@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyMovies.Common.Exceptions;
 using MyMovies.Mappings;
 using MyMovies.Models;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private IMoviesService _service { get; set; }
@@ -19,7 +21,7 @@ namespace MyMovies.Controllers
         {
             _service = service;
         }
-
+        [AllowAnonymous]
         public IActionResult Overview(string title)
         {
             try
@@ -60,7 +62,6 @@ namespace MyMovies.Controllers
             }
         }
 
-
         [HttpGet]
         public IActionResult Create()
         {
@@ -77,7 +78,6 @@ namespace MyMovies.Controllers
             }
             return View(movieModel);
         }
-
         public IActionResult Delete(int id)
         {
             var response = _service.Delete(id);
@@ -90,7 +90,6 @@ namespace MyMovies.Controllers
                 return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
             }
         }
-
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -133,6 +132,7 @@ namespace MyMovies.Controllers
                 return RedirectToAction("ErrorNotFound", "Info");
             }
         }
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             try

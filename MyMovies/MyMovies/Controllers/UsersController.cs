@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyMovies.Mappings;
 using MyMovies.Services.Interfaces;
 using System;
@@ -11,11 +12,13 @@ namespace MyMovies.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersService _usersService;
-
         public UsersController(IUsersService usersService)
         {
             _usersService = usersService;
         }
+
+
+        [Authorize]
         public IActionResult Details()
         {
             var userId = User.FindFirst("Id").Value;
