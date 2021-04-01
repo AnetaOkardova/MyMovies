@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,16 @@ namespace MyMovies
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MyMoviesDbContext>(x => x.UseSqlServer("Server=(localDb)\\MSSQLLocalDB;Database= MyMovies; Trusted_Connection=True;"));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                options =>
+                {
+                    //options.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+                    //options.SlidingExpiration = false; 
+
+                }
+                );
+            
             services.AddControllersWithViews();
             services.AddTransient<IMoviesService, MoviesService>();
             //services.AddTransient<IMoviesRepository, MoviesMemoryRepository>();
@@ -37,6 +48,9 @@ namespace MyMovies
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IUserRepository, UsersRepository>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUsersService, UsersService>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +70,8 @@ namespace MyMovies
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

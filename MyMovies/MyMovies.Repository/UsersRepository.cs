@@ -29,9 +29,9 @@ namespace MyMovies.Repository
             throw new NotImplementedException();
         }
 
-        public Movie GetById(int id)
+        public User GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Users.FirstOrDefault(x => x.Id == id);
         }
 
         public User GetByUsername(string username)
@@ -39,10 +39,6 @@ namespace MyMovies.Repository
             return _context.Users.FirstOrDefault(x => x.Username == username);
         }
 
-        User IUserRepository.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Add(User user)
         {

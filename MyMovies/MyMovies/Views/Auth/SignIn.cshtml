@@ -2,28 +2,47 @@
 @model MyMovies.ViewModels.SignInModel
 
 @{
-    ViewBag.Title = "SignIn";
     Layout = null;
 }
 
-@if (ViewBag.ErrorMessage != null)
+@*@if (ViewBag.ErrorMessage != null)
 {
     <div class="alert alert-success m-3" role="alert" style="width:800px">
         @ViewBag.ErrorMessage
     </div>
-}
+}*@
 
-<form asp-controller="Auth" asp-action="SignIn" method="post" style="width: 80%">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <input type="text" asp-for="Username" class="form-control p-2 mt-5" placeholder="Username" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+<!Doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>SignIn</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row justify-content-center m-2 p-2">
+        <form asp-controller="Auth" asp-action="SignIn" method="post" style="width: 20%">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input type="text" asp-for="Username" class="form-control p-2 mt-5" required placeholder="Username" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" asp-for="Password" class="form-control p-2 mt-2" required placeholder="Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a href="#" class="pl-2 text-primary">Forgot password</a>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" asp-for="IsPersistent" class="form-check-input pl-2" />
+                <label class="form-check-label" asp-for="IsPersistent">Keep me signed in</label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Sign In" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="password" asp-for="Password" class="form-control p-2 mt-2" placeholder="Password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Sign In" class="btn btn-primary" />
-    </div>
-</form>
+</body>
+</html>
+

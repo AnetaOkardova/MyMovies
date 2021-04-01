@@ -43,5 +43,16 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration
             };
         }
+        public static UserDetailsModel ToUserDetailsModel(this User user)
+        {
+            return new UserDetailsModel()
+            {
+                Name = user.Name,
+                Lastname = user.Lastname,
+                Address = user.Address,
+                Email = user.Email,
+                Username = user.Username,
+            };
+        }
     }
 }

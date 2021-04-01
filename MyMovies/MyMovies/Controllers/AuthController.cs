@@ -28,17 +28,23 @@ namespace MyMovies.Controllers
             var domainModel = signInModel.ToModel();
             if (ModelState.IsValid)
             {
-               var response = _service.GetUserByUsername(domainModel.Username, domainModel.Password);
+               var response = _service.SignIn(domainModel.Username, domainModel.Password, signInModel.IsPersistent, HttpContext);
                 if (response.Success)
                 {
-                    return RedirectToAction("Overview");
+                    return RedirectToAction("Overview", "Movies");
                 }
                 else
                 {
-                    return RedirectToAction("SignIn", new { ErrorMessage = response.Message });
+                    ModelState.AddModelError("", response.Message);
+                    //return RedirectToAction("SignIn", new { ErrorMessage = response.Message });
                 }
             }
             return View(signInModel);
+        }
+        public IActionResult SignOut()
+        {
+            _service.SignOut(HttpContext);
+            return RedirectToAction("Overview", "Movies");
         }
     }
 }
