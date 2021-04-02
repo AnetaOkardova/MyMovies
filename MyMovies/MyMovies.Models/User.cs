@@ -9,25 +9,19 @@ namespace MyMovies.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Name { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Lastname { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Address { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Email { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 8)]
         public string Username { get; set; }
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 8)]
         public string Password { get; set; }
         [Required]
-        public bool IsAdmin { get; set; } 
+        public bool IsAdmin { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
     }

@@ -8,5 +8,6 @@ namespace MyMovies.Services.Interfaces
     public interface IUsersService
     {
         User GetDetails(string userId);
+        List<User> GetAllUsers();
     }
 }

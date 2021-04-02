@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "IsAdmin")]
     public class MoviesController : Controller
     {
         private IMoviesService _service { get; set; }

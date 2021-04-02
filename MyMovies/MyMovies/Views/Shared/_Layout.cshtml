@@ -30,9 +30,16 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/Movies/ManageOverview">Modify Movie</a>
-                            </li>
+                            @if (Convert.ToBoolean(User.FindFirst("isAdmin").Value))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/Movies/ManageOverview">Modify Movie</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/Users/ManageOverview">Modify Users</a>
+                                </li>
+                            }
+
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="/Users/Details">@User.FindFirst("Username").Value</a>
                             </li>
@@ -44,6 +51,9 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/Auth/SignIn">Sign In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/Auth/SignUp">Sign up</a>
                             </li>
                         }
                     </ul>

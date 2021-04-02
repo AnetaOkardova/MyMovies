@@ -13,5 +13,6 @@ namespace MyMovies.Repository.Interfaces
         void Delete(User user);
         void Update(User user);
         User GetByUsername(string username);
+        bool CheckIfExists(string username, string email);
     }
 }

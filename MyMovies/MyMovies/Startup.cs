@@ -34,13 +34,21 @@ namespace MyMovies
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
                 {
-                    //options.ExpireTimeSpan = TimeSpan.FromSeconds(5);
+                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
                     options.LoginPath = "/Auth/SignIn";
-                    //options.SlidingExpiration = false; 
+                    options.AccessDeniedPath = "/Auth/AccessDenied";
+                    //options.SlidingExpiration = false; -- da se iskluci i pokraj aktivnost
 
                 }
                 );
-            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin", policy =>
+                {
+                    policy.RequireClaim("IsAdmin", "True");
+                });
+            });
+
             services.AddControllersWithViews();
             services.AddTransient<IMoviesService, MoviesService>();
             //services.AddTransient<IMoviesRepository, MoviesMemoryRepository>();

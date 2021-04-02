@@ -28,10 +28,10 @@ namespace MyMovies.Controllers
             var domainModel = signInModel.ToModel();
             if (ModelState.IsValid)
             {
-               var response = _service.SignIn(domainModel.Username, domainModel.Password, signInModel.IsPersistent, HttpContext);
+                var response = _service.SignIn(domainModel.Username, domainModel.Password, signInModel.IsPersistent, HttpContext);
                 if (response.Success)
                 {
-                    if(returnUrl == null)
+                    if (returnUrl == null)
                     {
                         return RedirectToAction("Overview", "Movies");
                     }
@@ -52,6 +52,35 @@ namespace MyMovies.Controllers
         {
             _service.SignOut(HttpContext);
             return RedirectToAction("Overview", "Movies");
+        }
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SignUp(SignUpModel signUpModel)
+        {
+            var domainModel = signUpModel.ToModel();
+            if (ModelState.IsValid)
+            {
+                var response = _service.SignUp(domainModel);
+                if (response.Success)
+                {
+                    return RedirectToAction("SignIn");
+                }
+                else
+                {
+                    ModelState.AddModelError("", response.Message);
+                }
+            }
+
+            return View(signUpModel);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

@@ -14,19 +14,15 @@ namespace MyMovies.Repository
         {
             _context = context;
         }
-        public void Add(Movie movie)
+        public void Add(User user)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Movie movie)
-        {
-            throw new NotImplementedException();
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
         public List<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Users.ToList();
         }
 
         public User GetById(int id)
@@ -39,20 +35,21 @@ namespace MyMovies.Repository
             return _context.Users.FirstOrDefault(x => x.Username == username);
         }
 
-
-        public void Add(User user)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Remove(user);
+            _context.SaveChanges();
         }
 
         public void Update(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+
+        public bool CheckIfExists(string username, string email)
+        {
+            return _context.Users.Any(x => x.Username == username || x.Email == email);
         }
     }
 }

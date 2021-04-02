@@ -51,7 +51,16 @@ namespace MyMovies.Mappings
                 Lastname = user.Lastname,
                 Address = user.Address,
                 Email = user.Email,
+                Username = user.Username
+            };
+        }
+        public static ManageOverviewUsersModel ToManageOverviewUsersModel(this User user)
+        {
+            return new ManageOverviewUsersModel()
+            {
+                Id = user.Id,
                 Username = user.Username,
+                IsAdmin = user.IsAdmin
             };
         }
     }

@@ -20,40 +20,22 @@ namespace MyMovies.Services
         {
             _userRepository = userRepository;
         }
-        public void CreateUser(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StatusModel Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<User> GetAllUSers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public User GetUserById(int id)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public StatusModel SignIn(string username, string password, bool IsPersistent, HttpContext httpContext)
         {
             var response = new StatusModel();
             var user = _userRepository.GetByUsername(username);
 
-            if (user != null && user.Password == password)
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 var claims = new List<Claim>()
                 {
                     new Claim("Id", user.Id.ToString()),
                     new Claim("Username", user.Username),
-                    //new Claim("Address", user.Address),
-                    ////new Claim("Email", user.Email),
-                    //new Claim("Username", user.Username)
+                    new Claim("IsAdmin", user.IsAdmin.ToString()),
+                    new Claim("Address", user.Address),
+                    new Claim("Email", user.Email),
                 };
                 //create licna karta
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -73,15 +55,45 @@ namespace MyMovies.Services
             }
             return response;
         }
-
         public void SignOut(HttpContext httpContext)
         {
             Task.Run(() => httpContext.SignOutAsync()).GetAwaiter().GetResult();
+        }
+        public StatusModel SignUp(User user)
+        {
+            var response = new StatusModel();
+            var exist = _userRepository.CheckIfExists(user.Username, user.Email);
+            if(exist)
+            {
+                response.Success = false;
+                response.Message = "This username has alredy been taken. Please try with another username.";
+            }
+            else
+            {
+                var newUser = new User()
+                {
+                    Username = user.Username,
+                    Name = user.Name,
+                    Lastname = user.Lastname,
+                    Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
+                    Address = user.Address,
+                    Email = user.Email,
+                    DateCreated = DateTime.Now,
+                };
+                _userRepository.Add(newUser);
+                response.Success = true;
+            }
+            return response;
         }
 
         public StatusModel Update(User user)
         {
             throw new NotImplementedException();
         }
+        public StatusModel Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
