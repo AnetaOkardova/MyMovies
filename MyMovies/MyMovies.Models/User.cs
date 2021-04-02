@@ -24,5 +24,6 @@ namespace MyMovies.Models
         public bool IsAdmin { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }
