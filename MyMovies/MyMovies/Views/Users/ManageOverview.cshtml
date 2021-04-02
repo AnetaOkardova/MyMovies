@@ -4,6 +4,19 @@
     ViewBag.Title = "ManageOverview";
 }
 
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success m-3" role="alert" style="width:800px">
+        @ViewBag.SuccessMessage
+    </div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger m-3" role="alert" style="width:800px">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 <div class="row justify-content-center w-50 m-5 p-5">
     <table class="table table-bordered table-hover">
         <thead>
@@ -25,18 +38,17 @@
                     <td>
                         @if (user.IsAdmin)
                         {
-                            <a href="/Users/EditAdminRole/@user.Id" class="text-danger">Remove admin role</a>
+                            <a href="/Users/ToggleAdminRole/@user.Id" class="text-danger">Remove admin role</a>
                         }
                         else
                         {
-                            <a href="/Users/EditAdminRole/@user.Id" class="text-success">Add admin role</a>
+                            <a href="/Users/ToggleAdminRole/@user.Id" class="text-success">Add admin role</a>
 
                         }
                     </td>
                     <td class="text-center">
                         <a href="/Users/Delete/@user.Id" class="text-danger">Delete</a>
                     </td>
-
                 </tr>
             }
         </tbody>

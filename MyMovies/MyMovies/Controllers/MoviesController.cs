@@ -2,14 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MyMovies.Common.Exceptions;
 using MyMovies.Mappings;
-using MyMovies.Models;
-using MyMovies.Services;
 using MyMovies.Services.Interfaces;
 using MyMovies.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyMovies.Controllers
 {

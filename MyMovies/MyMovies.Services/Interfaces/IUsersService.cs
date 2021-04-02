@@ -1,7 +1,6 @@
 ﻿using MyMovies.Models;
-using System;
+using MyMovies.Services.DtoModels;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MyMovies.Services.Interfaces
 {
@@ -9,5 +8,7 @@ namespace MyMovies.Services.Interfaces
     {
         User GetDetails(string userId);
         List<User> GetAllUsers();
+        StatusModel ToggleAdminRole(int id);
+        StatusModel Delete(int id);
     }
 }
