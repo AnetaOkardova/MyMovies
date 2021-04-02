@@ -5,8 +5,7 @@ using System.Text;
 
 namespace MyMovies.Repository.Interfaces
 {
-    public interface IMoviesRepository : IBaseRepository<Movie>
+    public interface ICommentsRepository : IBaseRepository<Comment>
     {
-        List<Movie> GetByTitle(string title);
     }
 }

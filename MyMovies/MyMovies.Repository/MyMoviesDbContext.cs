@@ -13,10 +13,6 @@ namespace MyMovies.Repository
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<User> Users { get; set; }
-
-        internal void FirstOrDefault()
-        {
-            throw new NotImplementedException();
-        }
+        public DbSet<Comment> Comments { get; set; }
     }
 }
