@@ -51,13 +51,15 @@ namespace MyMovies
 
             services.AddControllersWithViews();
             services.AddTransient<IMoviesService, MoviesService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<ICommentsService, CommentsService>();
             //services.AddTransient<IMoviesRepository, MoviesMemoryRepository>();
             //services.AddTransient<IMoviesRepository, MoviesFileRepository>();
             //services.AddTransient<IMoviesRepository, MoviesSqlRepository>();
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IUserRepository, UsersRepository>();
-            services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IUsersService, UsersService>();
+           
             services.AddTransient<ICommentsRepository, CommentsRepository>();
 
         }

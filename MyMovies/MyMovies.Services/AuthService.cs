@@ -85,14 +85,14 @@ namespace MyMovies.Services
             return response;
         }
 
-        public StatusModel Update(User user)
-        {
-            throw new NotImplementedException();
-        }
-        public StatusModel Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public StatusModel Update(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public StatusModel Delete(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }

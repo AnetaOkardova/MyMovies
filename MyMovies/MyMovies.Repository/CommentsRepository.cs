@@ -2,6 +2,7 @@
 using MyMovies.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyMovies.Repository
@@ -10,6 +11,11 @@ namespace MyMovies.Repository
     {
         public CommentsRepository(MyMoviesDbContext context) : base(context)
         {
+        }
+
+        public List<Comment> GetCommentByUserId(int id)
+        {
+            return _context.Comments.Where(x => x.UserId == id).ToList();
         }
     }
 }

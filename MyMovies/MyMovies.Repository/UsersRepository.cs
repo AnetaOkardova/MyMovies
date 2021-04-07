@@ -1,4 +1,5 @@
-﻿using MyMovies.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace MyMovies.Repository
         public User GetByUsername(string username)
         {
             return _context.Users.FirstOrDefault(x => x.Username == username);
+        }
+        public virtual User GetById(int entityId)
+        {
+            return _context.Users.Include(x => x.Comments).ThenInclude(x => x.Movie).FirstOrDefault(x=> x.Id == entityId);
         }
     }
 }
