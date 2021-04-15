@@ -35,17 +35,25 @@
     <p>@comment.Message</p>
     @if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 60)
     {
-        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min</h6>
+        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min ago</h6>
     }
     else
     {
-        if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 1440)
+        if (((DateTime.Now - comment.DateCreated).TotalHours) < 25)
         {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h</h6>
+            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h ago</h6>
+        }
+        else if (((DateTime.Now - comment.DateCreated).TotalDays) < 32)
+        {
+            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days ago</h6>
+        }
+        else if (((DateTime.Now - comment.DateCreated).TotalDays) > 32 && ((DateTime.Now - comment.DateCreated).TotalDays) < 365)
+        {
+            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 31) months ago</h6>
         }
         else
         {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days</h6>
+            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 365) years ago</h6>
         }
     }
 </div>
