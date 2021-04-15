@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="row justify-content-center m-2 p-2">
-        <form asp-controller="Auth" asp-action="SignIn" asp-route-returnUrl =" @Context.Request.Query["returnUrl"]" method="post" style="width: 20%">
+        <form asp-controller="Auth" asp-action="SignIn" asp-route-returnUrl=" @Context.Request.Query["returnUrl"]" onsubmit="return validateForm()" method="post" style="width: 20%">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <input type="text" asp-for="Username" class="form-control p-2 mt-5" required placeholder="Username" />
@@ -43,6 +43,8 @@
             </div>
         </form>
     </div>
+    <script src="~/js/RequiredDataValidator.js"></script>
+    
 </body>
 </html>
 

@@ -8,7 +8,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-4">
-        <form asp-action="UpdateProfileInfo" asp-controller="Users" method="post">
+        <form asp-action="UpdateProfileInfo" asp-controller="Users" onsubmit="return validateForm()" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Name</label>
@@ -36,3 +36,6 @@
         </form>
     </div>
 </div>
+
+<script src="~/js/RequiredDataValidator.js"></script>
+ 
