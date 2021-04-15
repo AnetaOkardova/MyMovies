@@ -26,30 +26,34 @@
                 <th>IsAdmin</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var user in Model)
             {
-                <tr class="text-center">
-                    <td>@user.Id</td>
-                    <td>@user.Username</td>
-                    <td>@Html.DisplayFor(modelItem => user.IsAdmin)</td>
-                    <td>
-                        @if (user.IsAdmin)
-                        {
-                            <a href="/Users/ToggleAdminRole/@user.Id" class="text-danger">Remove admin role</a>
-                        }
-                        else
-                        {
-                            <a href="/Users/ToggleAdminRole/@user.Id" class="text-success">Add admin role</a>
+            <tr class="text-center">
+                <td>@user.Id</td>
+                <td>@user.Username</td>
+                <td>@Html.DisplayFor(modelItem => user.IsAdmin)</td>
+                <td>
+                    @if (user.IsAdmin)
+                    {
+                        <a href="/Users/ToggleAdminRole/@user.Id" class="text-danger">Remove admin role</a>
+                    }
+                    else
+                    {
+                        <a href="/Users/ToggleAdminRole/@user.Id" class="text-success">Add admin role</a>
 
-                        }
-                    </td>
-                    <td class="text-center">
-                        <a href="/Users/Delete/@user.Id" class="text-danger">Delete</a>
-                    </td>
-                </tr>
+                    }
+                </td>
+                <td class="text-center">
+                    <a href="/Users/Delete/@user.Id" class="text-danger">Delete</a>
+                </td>
+                <td class="text-center">
+                    <a href="/Users/Update/@user.Id" class="text-danger">Modify</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

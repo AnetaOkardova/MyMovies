@@ -10,5 +10,7 @@ namespace MyMovies.Services.Interfaces
         List<User> GetAllUsers();
         StatusModel ToggleAdminRole(int id);
         StatusModel Delete(int id);
+        User GetUserById(int id);
+        StatusModel Update(User user);
     }
 }

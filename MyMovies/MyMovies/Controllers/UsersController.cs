@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyMovies.Common.Exceptions;
 using MyMovies.Mappings;
 using MyMovies.Services.Interfaces;
 using MyMovies.ViewModels;
@@ -69,6 +70,48 @@ namespace MyMovies.Controllers
             else
             {
                 return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            try
+            {
+                var movie = _usersService.GetUserById(id);
+                return View(movie.ToUpdateUserModel());
+            }
+            catch (MoviesException ex)
+            {
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+        }
+        [HttpPost]
+        public IActionResult Update(UpdateUserModel userModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var response = _usersService.Update(userModel.ToModel());
+                    if (response.Success)
+                    {
+                        return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+                    }
+                }
+
+                return View(userModel);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
             }
         }
 

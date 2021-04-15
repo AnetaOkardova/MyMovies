@@ -23,7 +23,7 @@ namespace MyMovies.Repository
         {
             return _context.Users.FirstOrDefault(x => x.Username == username);
         }
-        public virtual User GetById(int entityId)
+        public override User GetById(int entityId)
         {
             return _context.Users.Include(x => x.Comments).ThenInclude(x => x.Movie).FirstOrDefault(x=> x.Id == entityId);
         }

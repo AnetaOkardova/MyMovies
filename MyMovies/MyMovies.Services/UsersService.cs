@@ -1,4 +1,5 @@
-﻿using MyMovies.Models;
+﻿using MyMovies.Common.Exceptions;
+using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
 using MyMovies.Services.DtoModels;
 using MyMovies.Services.Interfaces;
@@ -45,6 +46,17 @@ namespace MyMovies.Services
             return _userRepository.GetById(Convert.ToInt32(userId));
         }
 
+        public User GetUserById(int id)
+        {
+            var movie = _userRepository.GetById(id);
+            if (movie == null)
+            {
+                throw new MoviesException($"There is no user with ID {id}");
+            }
+
+            return movie;
+        }
+
         public StatusModel ToggleAdminRole(int id)
         {
             var response = new StatusModel();
@@ -61,6 +73,33 @@ namespace MyMovies.Services
                 _userRepository.Update(user);
             }
 
+            return response;
+        }
+
+        public StatusModel Update(User user)
+        {
+            var response = new StatusModel();
+            var userToUpdate = _userRepository.GetById(user.Id);
+
+
+            if (userToUpdate == null)
+            {
+                response.Success = false;
+                response.Message = $"The user with ID {user.Id} is not found.";
+            }
+            else
+            {
+                userToUpdate.Name = user.Name;
+                userToUpdate.Lastname = user.Lastname;
+                userToUpdate.Address = user.Address;
+                userToUpdate.Email = user.Email;
+                userToUpdate.DateModified = DateTime.Now;
+
+                _userRepository.Update(userToUpdate);
+
+                response.Success = true;
+                response.Message = $"The user with ID {user.Id} has been successfully updated.";
+            }
             return response;
         }
     }

@@ -18,6 +18,18 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration
             };
         }
+        public static UpdateUserModel ToUpdateUserModel(this User user)
+        {
+            return new UpdateUserModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Lastname = user.Lastname,
+                Address = user.Address,
+                Email  = user.Email,
+            };
+        }
+        
         public static CreateMovieModel ToCreateMovieModel(this Movie movie)
         {
             return new CreateMovieModel()
