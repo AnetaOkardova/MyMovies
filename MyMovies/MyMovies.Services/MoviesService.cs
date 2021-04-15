@@ -101,5 +101,17 @@ namespace MyMovies.Services
             }
             return response;
         }
+        public Movie GetMovieDetails(int id)
+        {
+            var movie = GetMovieById(id);
+            if(movie == null)
+            {
+                return movie;
+            }
+            movie.Views++;
+
+            _moviesRepository.Update(movie);
+            return movie;
+        }
     }
 }

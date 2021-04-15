@@ -18,6 +18,19 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration
             };
         }
+
+        public static MovieOverviewModel ToMovieOverviewModel(this Movie movie)
+        {
+            return new MovieOverviewModel()
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                ImageURL = movie.ImageURL,
+                Duration = movie.Duration,
+                Views = movie.Views
+            };
+        }
         public static UpdateUserModel ToUpdateUserModel(this User user)
         {
             return new UpdateUserModel()
@@ -62,6 +75,7 @@ namespace MyMovies.Mappings
                 Description = movie.Description,
                 ImageURL = movie.ImageURL,
                 Duration = movie.Duration,
+                Views = movie.Views,
                 Comments = movie.Comments.Select(x => x.ToCommentModel()).ToList()
             };
         }

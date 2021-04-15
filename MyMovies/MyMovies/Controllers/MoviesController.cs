@@ -5,6 +5,7 @@ using MyMovies.Mappings;
 using MyMovies.Services.Interfaces;
 using MyMovies.ViewModels;
 using System;
+using System.Linq;
 
 namespace MyMovies.Controllers
 {
@@ -22,7 +23,8 @@ namespace MyMovies.Controllers
             try
             {
                 var movies = _service.GetMoviesByTitle(title);
-                return View(movies);
+
+                return View(movies.Select(x => x.ToMovieOverviewModel()).ToList());
             }
             catch (MoviesException ex)
             {
@@ -132,7 +134,7 @@ namespace MyMovies.Controllers
         {
             try
             {
-                var movie = _service.GetMovieById(id);
+                var movie = _service.GetMovieDetails(id);
                 if (movie == null)
                 {
                     return RedirectToAction("ErrorNotFound", "Info");

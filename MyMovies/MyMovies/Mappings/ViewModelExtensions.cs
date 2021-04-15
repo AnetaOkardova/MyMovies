@@ -59,7 +59,8 @@ namespace MyMovies.Mappings
                 Title = movie.Title,
                 Description = movie.Description,
                 ImageURL = movie.ImageURL,
-                Duration = movie.Duration
+                Duration = movie.Duration,
+                Views = movie.Views
             };
         }
         public static User ToModel(this SignInModel signInModel)
