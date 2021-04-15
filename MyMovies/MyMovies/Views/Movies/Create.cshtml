@@ -5,7 +5,7 @@
     ViewBag.Title = "Create";
 }
 
-<form asp-controller="Movies" asp-action="Create" method="post"  onsubmit="return validateForm()" style="width: 80%">
+<form asp-controller="Movies" asp-action="Create" method="post" onsubmit="return validateForm()" style="width: 80%">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label class="control-label" asp-for="Title">Title</label>
@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <label class="control-label" asp-for="Genre">Genre</label>
-        <input type="text" asp-for="Genre" class="form-control" required/>
+        <input type="text" asp-for="Genre" class="form-control" required />
         <span asp-validation-for="Genre" class="text-danger"></span>
 
     </div>
@@ -25,12 +25,12 @@
     </div>
     <div class="form-group">
         <label class="control-label" asp-for="Duration">Duration</label>
-        <input type="number" asp-for="Duration" class="form-control" required/>
+        <input type="number" asp-for="Duration" class="form-control" required />
         <span asp-validation-for="Duration" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label class="control-label" asp-for="ImageURL">Image URL</label>
-        <input type="text" asp-for="ImageURL" class="form-control" required/>
+        <input type="text" asp-for="ImageURL" class="form-control" required />
         <span asp-validation-for="ImageURL" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -38,6 +38,8 @@
     </div>
 </form>
 
-<script src="~/js/RequiredDataValidator.js"></script>
+@section Scripts{
+    <script src="~/js/RequiredDataValidator.js"></script>
+}
 
-   
+
