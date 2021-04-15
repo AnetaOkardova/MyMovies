@@ -18,4 +18,8 @@
     <ProjectReference Include="..\MyMovies.Services\MyMovies.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Comments\" />
+  </ItemGroup>
+
 </Project>

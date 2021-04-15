@@ -28,33 +28,47 @@
 }
 
 
-@foreach (var comment in Model.Comments.OrderByDescending(x=>x.DateCreated))
+@foreach (var comment in Model.Comments.OrderByDescending(x => x.DateCreated))
 {
-<div style="padding:2px; margin: 2px; border1px solid black; background-color:aquamarine; border-radius:10px; width: 350px">
-    <h6>@comment.Username</h6>
-    <p>@comment.Message</p>
-    @if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 60)
-    {
-        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min ago</h6>
-    }
-    else
-    {
-        if (((DateTime.Now - comment.DateCreated).TotalHours) < 25)
-        {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h ago</h6>
-        }
-        else if (((DateTime.Now - comment.DateCreated).TotalDays) < 32)
-        {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days ago</h6>
-        }
-        else if (((DateTime.Now - comment.DateCreated).TotalDays) > 32 && ((DateTime.Now - comment.DateCreated).TotalDays) < 365)
-        {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 31) months ago</h6>
-        }
-        else
-        {
-            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 365) years ago</h6>
-        }
-    }
-</div>
+    <div style="padding:2px; margin: 2px; border1px solid black; background-color:aquamarine; border-radius:10px; width: 350px">
+        <h6>@comment.Username</h6>
+        <p>@comment.Message</p>
+        <table style="text-align:center">
+            <td class="p-1">
+                @if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 60)
+                {
+                    <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min ago</h6>
+                }
+                else
+                {
+                    if (((DateTime.Now - comment.DateCreated).TotalHours) < 25)
+                    {
+                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h ago</h6>
+                    }
+                    else if (((DateTime.Now - comment.DateCreated).TotalDays) < 32)
+                    {
+                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days ago</h6>
+                    }
+                    else if (((DateTime.Now - comment.DateCreated).TotalDays) > 32 && ((DateTime.Now - comment.DateCreated).TotalDays) < 365)
+                    {
+                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 31) months ago</h6>
+                    }
+                    else
+                    {
+                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 365) years ago</h6>
+                    }
+                }
+            </td>
+            @if (User.Identity.IsAuthenticated && User.FindFirst("Username").Value == comment.Username)
+            {
+                <td class="p-1">
+                    <a href="/Comments/Update/@comment.Id" class="text-primary">Edit</a>
+
+                </td>
+                <td class="p-1">
+                    <a href="/Comments/Delete/@comment.Id" class="text-primary">Delete</a>
+                </td>
+            }
+        </table>
+    </div>
 }

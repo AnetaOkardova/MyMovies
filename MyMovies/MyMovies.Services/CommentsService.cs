@@ -1,4 +1,5 @@
-﻿using MyMovies.Models;
+﻿using MyMovies.Common.Exceptions;
+using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
 using MyMovies.Services.DtoModels;
 using MyMovies.Services.Interfaces;
@@ -31,12 +32,69 @@ namespace MyMovies.Services
             else
             {
                 response.Success = true;
+
                 var newComment = new Comment();
                 newComment.Message = comment;
                 newComment.MovieId = movieId;
                 newComment.UserId = userId;
                 newComment.DateCreated = DateTime.Now;
+
                 _commentsRepository.Add(newComment);
+            }
+            return response;
+        }
+
+        public StatusModel Delete(int commentId)
+        {
+            var response = new StatusModel();
+
+            var comment = _commentsRepository.GetById(commentId);
+            if (comment == null)
+            {
+                response.Success = false;
+                response.Message = $"The comment with ID {comment.Id} is not found.";
+            }
+            else
+            {
+                response.Success = true;
+                response.Message = $"The comment with ID {comment.Id} has been successfully deleted.";
+
+                _commentsRepository.Delete(comment);
+            }
+            return response;
+        }
+
+        public Comment GetCommentById(int id)
+        {
+            var comment = _commentsRepository.GetById(id);
+            if (comment == null)
+            {
+                throw new MoviesException($"There is no comment with ID {id}");
+            }
+
+            return comment;
+        }
+
+        public StatusModel Update(Comment comment)
+        {
+            var response = new StatusModel();
+            var commentToUpdate = _commentsRepository.GetById(comment.Id);
+
+
+            if (commentToUpdate == null)
+            {
+                response.Success = false;
+                response.Message = $"The comment with ID {comment.Id} is not found.";
+            }
+            else
+            {
+                commentToUpdate.Message = comment.Message;
+                commentToUpdate.DateModified = DateTime.Now;
+
+                _commentsRepository.Update(commentToUpdate);
+
+                response.Success = true;
+                response.Message = $"The comment with ID {comment.Id} has been successfully updated.";
             }
             return response;
         }
