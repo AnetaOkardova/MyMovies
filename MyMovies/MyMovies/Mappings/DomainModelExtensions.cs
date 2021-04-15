@@ -26,10 +26,21 @@ namespace MyMovies.Mappings
                 Name = user.Name,
                 Lastname = user.Lastname,
                 Address = user.Address,
-                Email  = user.Email,
+                Email = user.Email,
             };
         }
-        
+        public static UserDetailsModel ToUpdateUserDetailsModel(this User user)
+        {
+            return new UserDetailsModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Lastname = user.Lastname,
+                Address = user.Address,
+                Email = user.Email,
+            };
+        }
+
         public static CreateMovieModel ToCreateMovieModel(this Movie movie)
         {
             return new CreateMovieModel()
@@ -51,7 +62,7 @@ namespace MyMovies.Mappings
                 Description = movie.Description,
                 ImageURL = movie.ImageURL,
                 Duration = movie.Duration,
-                Comments = movie.Comments.Select(x=> x.ToCommentModel()).ToList()
+                Comments = movie.Comments.Select(x => x.ToCommentModel()).ToList()
             };
         }
         public static MovieCommentModel ToCommentModel(this Comment comment)
@@ -68,6 +79,7 @@ namespace MyMovies.Mappings
         {
             return new UserDetailsModel()
             {
+                Id = user.Id,
                 Name = user.Name,
                 Lastname = user.Lastname,
                 Address = user.Address,

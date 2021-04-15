@@ -28,6 +28,18 @@ namespace MyMovies.Mappings
                 Email = user.Email,
             };
         }
+        public static User ToModel(this UserDetailsModel user)
+        {
+            return new User()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Lastname = user.Lastname,
+                Address = user.Address,
+                Email = user.Email,
+            };
+        }
+        
         public static Movie ToModel(this CreateMovieModel movie)
         {
             return new Movie()

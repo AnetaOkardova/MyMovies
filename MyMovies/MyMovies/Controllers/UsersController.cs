@@ -114,6 +114,48 @@ namespace MyMovies.Controllers
                 return RedirectToAction("ErrorNotFound", "Info");
             }
         }
+        [HttpGet]
+        public IActionResult UpdateProfileInfo(int id)
+        {
+            try
+            {
+                var movie = _usersService.GetUserById(id);
+                return View(movie.ToUpdateUserDetailsModel());
+            }
+            catch (MoviesException ex)
+            {
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+        }
+        [HttpPost]
+        public IActionResult UpdateProfileInfo(UserDetailsModel userModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var response = _usersService.Update(userModel.ToModel());
+                    if (response.Success)
+                    {
+                        return RedirectToAction("Details", new { SuccessMessage = response.Message });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", new { ErrorMessage = response.Message });
+                    }
+                }
+
+                return View(userModel);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorNotFound", "Info");
+            }
+        }
 
     }
 }
