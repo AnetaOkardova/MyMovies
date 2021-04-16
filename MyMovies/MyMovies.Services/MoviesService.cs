@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyMovies.Common.Exceptions;
 using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
@@ -53,6 +54,7 @@ namespace MyMovies.Services
 
         public void CreateMovie(Movie movie)
         {
+            movie.DateCreated = DateTime.Now;
             _moviesRepository.Add(movie);
         }
         public StatusModel Delete(int id)
@@ -104,7 +106,7 @@ namespace MyMovies.Services
         public Movie GetMovieDetails(int id)
         {
             var movie = GetMovieById(id);
-            if(movie == null)
+            if (movie == null)
             {
                 return movie;
             }
@@ -112,6 +114,28 @@ namespace MyMovies.Services
 
             _moviesRepository.Update(movie);
             return movie;
+        }
+
+        public List<Movie> GetTopMovies(int count)
+        {
+            var movies = _moviesRepository.GetTopMovies(count);
+
+            if (movies.Count == 0)
+            {
+                throw new MoviesException($"There are no movies at this time.");
+            }
+            return movies;
+        }
+
+        public List<Movie> GetMostRecentMovies(int count)
+        {
+            var movies = _moviesRepository.GetMostRecentMovies(count);
+           
+            if (movies.Count == 0)
+            {
+                throw new MoviesException($"There are no movies at this time.");
+            }
+            return movies;
         }
     }
 }

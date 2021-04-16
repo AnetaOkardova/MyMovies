@@ -40,6 +40,16 @@ namespace MyMovies.Mappings
             };
         }
         
+        public static Movie ToModel(this MovieSidebarModel sidebarMovieModel)
+        {
+            return new Movie()
+            {
+                Id = sidebarMovieModel.Id,
+                Title = sidebarMovieModel.Title,
+                DateCreated = sidebarMovieModel.DateCreated,
+                Views = sidebarMovieModel.Views,
+            };
+        }
         public static Movie ToModel(this CreateMovieModel movie)
         {
             return new Movie()

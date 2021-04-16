@@ -28,7 +28,8 @@ namespace MyMovies.Mappings
                 Genre = movie.Genre,
                 ImageURL = movie.ImageURL,
                 Duration = movie.Duration,
-                Views = movie.Views
+                Views = movie.Views,
+                Description = movie.Description
             };
         }
         public static UpdateUserModel ToUpdateUserModel(this User user)
@@ -77,6 +78,17 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration,
                 Views = movie.Views,
                 Comments = movie.Comments.Select(x => x.ToCommentModel()).ToList()
+            };
+        }
+
+        public static MovieSidebarModel ToMovieSidebarModel(this Movie movie)
+        {
+            return new MovieSidebarModel()
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                DateCreated = movie.DateCreated,
+                Views = movie.Views,
             };
         }
         public static MovieCommentModel ToCommentModel(this Comment comment)

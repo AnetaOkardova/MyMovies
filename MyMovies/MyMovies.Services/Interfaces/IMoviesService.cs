@@ -17,5 +17,8 @@ namespace MyMovies.Services.Interfaces
         void CreateMovie(Movie movie);
         StatusModel Delete(int id);
         StatusModel Update(Movie movie);
+        List<Movie> GetTopMovies(int count);
+        List<Movie> GetMostRecentMovies(int count);
+
     }
 }

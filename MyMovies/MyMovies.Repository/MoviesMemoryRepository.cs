@@ -70,5 +70,15 @@ namespace MyMovies.Repository
         {
             throw new NotImplementedException();
         }
+
+        public List<Movie> GetMostRecentMovies(int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Movie> GetTopMovies(int count)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

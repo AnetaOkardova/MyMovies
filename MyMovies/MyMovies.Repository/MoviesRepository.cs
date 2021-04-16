@@ -22,5 +22,15 @@ namespace MyMovies.Repository
         {
             return _context.Movies.Include(x=>x.Comments).ThenInclude(x => x.User).FirstOrDefault(x => x.Id == entityId);
         }
+
+        public List<Movie> GetMostRecentMovies(int count)
+        {
+           return  _context.Movies.OrderByDescending(x => x.DateCreated).Take(count).ToList();
+        }
+
+        public List<Movie> GetTopMovies(int count)
+        {
+            return _context.Movies.OrderByDescending(x => x.Views).Take(count).ToList();
+        }
     }
 }

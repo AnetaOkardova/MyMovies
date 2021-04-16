@@ -23,8 +23,20 @@ namespace MyMovies.Controllers
             try
             {
                 var movies = _service.GetMoviesByTitle(title);
+                var movieOverviewModel = movies.Select(x => x.ToMovieOverviewModel()).ToList();
 
-                return View(movies.Select(x => x.ToMovieOverviewModel()).ToList());
+                var movieOverviewDataModel = new MovieOverviewDataModel();
+                movieOverviewDataModel.OverviewMovies = movieOverviewModel;
+
+                var topMovies = _service.GetTopMovies(5);
+                var mostRecentMovies = _service.GetMostRecentMovies(5);
+
+                var movieOverviewSidebarModel = new MovieSidebarDataModel();
+                movieOverviewSidebarModel.TopMovies = topMovies.Select(x => x.ToMovieSidebarModel()).ToList();
+                movieOverviewSidebarModel.MostRecentMovies = mostRecentMovies.Select(x=>x.ToMovieSidebarModel()).ToList();
+
+                movieOverviewDataModel.SidebarData = movieOverviewSidebarModel;
+                return View(movieOverviewDataModel);
             }
             catch (MoviesException ex)
             {
