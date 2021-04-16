@@ -151,7 +151,17 @@ namespace MyMovies.Controllers
                 {
                     return RedirectToAction("ErrorNotFound", "Info");
                 }
-                return View(movie.ToMovieDetailsModel());
+                var movieDetails = movie.ToMovieDetailsModel();
+
+                var topMovies = _service.GetTopMovies(5);
+                var mostRecentMovies = _service.GetMostRecentMovies(5);
+
+                var movieOverviewSidebarModel = new MovieSidebarDataModel();
+                movieOverviewSidebarModel.TopMovies = topMovies.Select(x => x.ToMovieSidebarModel()).ToList();
+                movieOverviewSidebarModel.MostRecentMovies = mostRecentMovies.Select(x => x.ToMovieSidebarModel()).ToList();
+
+                movieDetails.SideBarModel = movieOverviewSidebarModel;
+                return View(movieDetails);
             }
             catch (MoviesException ex)
             {

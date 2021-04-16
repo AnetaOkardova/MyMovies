@@ -37,26 +37,7 @@
         </div>
     </div>
     <div class="col-3 p-2">
-        <div class="m-1">
-            <h2>Top 5 movies</h2>
-            @foreach (var movie in Model.SidebarData.TopMovies)
-            {
-                <div class="p-1 shadow">
-                    <a href="/Movies/Details/@movie.Id"><h3>@movie.Title</h3></a>
-                    <p>Views: @movie.Views</p>
-                </div>
-            }
-        </div>
-        <div class="m-1">
-            <h2>Most recent movies</h2>
-            @foreach (var movie in Model.SidebarData.MostRecentMovies)
-            {
-                <div class="p-1 shadow">
-                    <a href="/Movies/Details/@movie.Id"><h3>@movie.Title</h3></a>
-                    <p>Views: @movie.Views</p>
-                </div>
-            }
-        </div>
+        <partial name="SidebarPartial" for="@Model.SidebarData" />
 
     </div>
 

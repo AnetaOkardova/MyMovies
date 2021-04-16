@@ -17,5 +17,6 @@ namespace MyMovies.ViewModels
         public string ImageURL { get; set; }
         public List<MovieCommentModel> Comments { get; set; }
         public int Views { get; set; }
+        public MovieSidebarDataModel SideBarModel { get; set; }
     }
 }

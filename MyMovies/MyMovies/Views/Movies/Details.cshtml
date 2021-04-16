@@ -6,74 +6,80 @@
     ViewBag.Title = "Movie details";
 }
 
-<h1>@Model.Title</h1>
-<p>Views @Model.Views</p>
+<div class="row">
+    <div class="col-9">
+        <h1>@Model.Title</h1>
+        <p>Views @Model.Views</p>
 
-<img src="@Model.ImageURL" alt="Alternate Text" />
-<h2>Description: @Model.Description.</h2>
-<h2>Duration: @Model.Duration. </h2>
+        <img src="@Model.ImageURL" alt="Alternate Text" />
+        <h2>Description: @Model.Description.</h2>
+        <h2>Duration: @Model.Duration. </h2>
 
-<hr />
-<h3>Comments</h3>
-<hr />
-@if (User.Identity.IsAuthenticated)
-{
-    <form asp-controller="Comments" asp-action="Add" method="post" onsubmit="return validateForm()" style="width: 80%">
-        <input type="text" name="movieId" value="@Model.Id" hidden />
-        <div class="form-group">
-            <textarea type="text" id="Comment" name="Comment" class="form-control" cols="20" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
-    </form>
-}
+        <hr />
+        <h3>Comments</h3>
+        <hr />
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-controller="Comments" asp-action="Add" method="post" onsubmit="return validateForm()" style="width: 80%">
+                <input type="text" name="movieId" value="@Model.Id" hidden />
+                <div class="form-group">
+                    <textarea type="text" id="Comment" name="Comment" class="form-control" cols="20" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        }
 
 
-@foreach (var comment in Model.Comments.OrderByDescending(x => x.DateCreated))
-{
-    <div style="padding:2px; margin: 2px; border1px solid black; background-color:aquamarine; border-radius:10px; width: 350px">
-        <h6>@comment.Username</h6>
-        <p>@comment.Message</p>
-        <table style="text-align:center">
-            <td class="p-1">
-                @if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 60)
-                {
-                    <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min ago</h6>
-                }
-                else
-                {
-                    if (((DateTime.Now - comment.DateCreated).TotalHours) < 25)
+        @foreach (var comment in Model.Comments.OrderByDescending(x => x.DateCreated))
+        {
+            <div style="padding:2px; margin: 2px; border1px solid black; background-color:aquamarine; border-radius:10px; width: 350px">
+                <h6>@comment.Username</h6>
+                <p>@comment.Message</p>
+                <table style="text-align:center">
+                    <td class="p-1">
+                        @if (((DateTime.Now - comment.DateCreated).TotalMinutes) < 60)
+                        {
+                            <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalMinutes) min ago</h6>
+                        }
+                        else
+                        {
+                            if (((DateTime.Now - comment.DateCreated).TotalHours) < 25)
+                            {
+                                <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h ago</h6>
+                            }
+                            else if (((DateTime.Now - comment.DateCreated).TotalDays) < 32)
+                            {
+                                <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days ago</h6>
+                            }
+                            else if (((DateTime.Now - comment.DateCreated).TotalDays) > 32 && ((DateTime.Now - comment.DateCreated).TotalDays) < 365)
+                            {
+                                <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 31) months ago</h6>
+                            }
+                            else
+                            {
+                                <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 365) years ago</h6>
+                            }
+                        }
+                    </td>
+                    @if (User.Identity.IsAuthenticated && User.FindFirst("Username").Value == comment.Username)
                     {
-                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalHours) h ago</h6>
-                    }
-                    else if (((DateTime.Now - comment.DateCreated).TotalDays) < 32)
-                    {
-                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays) days ago</h6>
-                    }
-                    else if (((DateTime.Now - comment.DateCreated).TotalDays) > 32 && ((DateTime.Now - comment.DateCreated).TotalDays) < 365)
-                    {
-                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 31) months ago</h6>
-                    }
-                    else
-                    {
-                        <h6>@Math.Floor((DateTime.Now - comment.DateCreated).TotalDays / 365) years ago</h6>
-                    }
-                }
-            </td>
-            @if (User.Identity.IsAuthenticated && User.FindFirst("Username").Value == comment.Username)
-            {
-                <td class="p-1">
-                    <a href="/Comments/Update/@comment.Id" class="text-primary">Edit</a>
+                        <td class="p-1">
+                            <a href="/Comments/Update/@comment.Id" class="text-primary">Edit</a>
 
-                </td>
-                <td class="p-1">
-                    <a href="/Comments/Delete/@comment.Id" class="text-primary">Delete</a>
-                </td>
-            }
-        </table>
+                        </td>
+                        <td class="p-1">
+                            <a href="/Comments/Delete/@comment.Id" class="text-primary">Delete</a>
+                        </td>
+                    }
+                </table>
+            </div>
+        }
     </div>
-}
-@section Scripts{
-    <script src="~/js/RequiredDataValidator.js"></script>
-}
+    <div class="col-3 p-2">
+        <partial name="SidebarPartial" for="@Model.SideBarModel" />
+    </div>
+    @section Scripts{
+        <script src="~/js/RequiredDataValidator.js"></script>
+    }

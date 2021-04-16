@@ -1,0 +1,24 @@
+﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model MyMovies.ViewModels.MovieSidebarDataModel
+
+<div class="m-1">
+    <h2>Top 5 movies</h2>
+    @foreach (var movie in Model.TopMovies)
+    {
+        <div class="p-1 shadow">
+            <a href="/Movies/Details/@movie.Id"><h3>@movie.Title</h3></a>
+            <p>Views: @movie.Views</p>
+        </div>
+    }
+</div>
+<div class="m-1">
+    <h2>Most recent movies</h2>
+    @foreach (var movie in Model.MostRecentMovies)
+    {
+        <div class="p-1 shadow">
+            <a href="/Movies/Details/@movie.Id"><h3>@movie.Title</h3></a>
+            <p>Views: @movie.Views</p>
+        </div>
+    }
+</div>

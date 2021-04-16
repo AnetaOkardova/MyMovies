@@ -126,7 +126,6 @@ namespace MyMovies.Services
             }
             return movies;
         }
-
         public List<Movie> GetMostRecentMovies(int count)
         {
             var movies = _moviesRepository.GetMostRecentMovies(count);
