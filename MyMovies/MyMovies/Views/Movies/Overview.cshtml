@@ -15,6 +15,7 @@
             -webkit-box-orient: vertical;
         }
     </style>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 }
 <div class="row">
     <div class="col-9">
@@ -28,6 +29,23 @@
                             <h5 class="card-title">@movie.Title</h5>
                             <p class="card-text"><span class="badge badge-secondary">@movie.MovieGenre</span> Duration: @movie.Duration</p>
                             <p>Views: @movie.Views</p>
+                            <p>Likes: @movie.MovieLikes.Count</p>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (movie.MovieLikes.Any(x => x.UserId == int.Parse(User.FindFirst("Id").Value)))
+                                {
+                                    <a asp-controller="MovieLikes" asp-action="Remove" asp-route-id="@movie.Id">
+                                        <i class="fas fa-thumbs-up"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="MovieLikes" asp-action="Add" asp-route-id="@movie.Id">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </a>
+                                }
+                            }
                             <div class="card-text movieDescription">@movie.Description</div>
                             <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">See description</a>
                         </div>

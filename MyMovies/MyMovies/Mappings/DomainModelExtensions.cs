@@ -29,7 +29,17 @@ namespace MyMovies.Mappings
                 Duration = movie.Duration,
                 Views = movie.Views,
                 Description = movie.Description,
-                MovieGenre = movie.MovieGenre.Name
+                MovieGenre = movie.MovieGenre.Name,
+                MovieLikes = movie.MovieLikes.Select(x => x.ToMovieLikeModel()).ToList()
+            };
+        }
+        public static MovieLikeModel ToMovieLikeModel(this MovieLike movieLike)
+        {
+            return new MovieLikeModel()
+            {
+                Id = movieLike.Id,
+                UserId = movieLike.UserId,
+                MovieId = movieLike.MovieId
             };
         }
         public static UpdateUserModel ToUpdateUserModel(this User user)

@@ -62,9 +62,7 @@ namespace MyMovies
             services.AddTransient<ISideBarService, SideBarService>();
             services.AddTransient<ILogService, LogService>();
             services.AddTransient<IMovieGenresService, MovieGenresService>();
-
-            
-
+            services.AddTransient<IMovieLikesService, MovieLikesService>();
 
             //services.AddTransient<IMoviesRepository, MoviesMemoryRepository>();
             //services.AddTransient<IMoviesRepository, MoviesFileRepository>();
@@ -73,6 +71,7 @@ namespace MyMovies
             services.AddTransient<IUserRepository, UsersRepository>();
             services.AddTransient<ICommentsRepository, CommentsRepository>();
             services.AddTransient<IMovieGenresRepository, MovieGenresRepository>();
+            services.AddTransient<IMovieLikesRepository, MovieLikesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

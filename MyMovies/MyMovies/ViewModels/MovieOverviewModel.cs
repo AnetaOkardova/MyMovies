@@ -15,5 +15,6 @@ namespace MyMovies.ViewModels
         public int Views { get; set; }
         public string Description { get; set; }
         public string MovieGenre { get; set; }
+        public List<MovieLikeModel> MovieLikes { get; set; }
     }
 }

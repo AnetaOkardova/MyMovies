@@ -26,5 +26,6 @@ namespace MyMovies.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<MovieLike> MovieLikes { get; set; }
     }
 }
