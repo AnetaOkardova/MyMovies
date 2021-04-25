@@ -13,6 +13,11 @@ namespace MyMovies.Repository
         {
         }
 
+        public List<Comment> GetByMovieId(int id)
+        {
+            return _context.Comments.Where(x => x.MovieId == id).ToList();
+        }
+
         public List<Comment> GetCommentByUserId(int id)
         {
             return _context.Comments.Where(x => x.UserId == id).ToList();

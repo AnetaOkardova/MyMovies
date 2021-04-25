@@ -7,5 +7,6 @@ namespace MyMovies.Repository.Interfaces
 {
     public interface ICommentsRepository : IBaseRepository<Comment>
     {
+        List<Comment> GetByMovieId(int id);
     }
 }

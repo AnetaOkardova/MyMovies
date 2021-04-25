@@ -15,9 +15,6 @@ namespace MyMovies.ViewModels
         public string Title { get; set; }
 
         [Required]
-        public string Genre { get; set; }
-
-        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -25,5 +22,8 @@ namespace MyMovies.ViewModels
 
         [Required]
         public string ImageURL { get; set; }
+        [Required]
+        public int MovieGenreId { get; set; }
+        public List<MovieGenresViewModel> MovieGenres { get; set; }
     }
 }

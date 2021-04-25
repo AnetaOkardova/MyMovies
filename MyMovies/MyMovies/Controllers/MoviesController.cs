@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyMovies.Common.Exceptions;
+using MyMovies.Common.Models;
+using MyMovies.Common.Services;
 using MyMovies.Mappings;
+using MyMovies.Service;
 using MyMovies.Services.Interfaces;
 using MyMovies.ViewModels;
 using System;
@@ -12,30 +15,31 @@ namespace MyMovies.Controllers
     [Authorize(Policy = "IsAdmin")]
     public class MoviesController : Controller
     {
-        private IMoviesService _service { get; set; }
-        public MoviesController(IMoviesService service)
+        private readonly ISideBarService _sidebarService;
+        private readonly IMovieGenresService _movieGenresService;
+        private readonly ILogService _logService;
+        private readonly IMoviesService _moviesService;
+
+        public MoviesController(IMoviesService service, ISideBarService sidebarService, IMovieGenresService movieGenresService, ILogService logService)
         {
-            _service = service;
+            _moviesService = service;
+            _sidebarService = sidebarService;
+            _movieGenresService = movieGenresService;
+            _logService = logService;
         }
         [AllowAnonymous]
         public IActionResult Overview(string title)
         {
             try
             {
-                var movies = _service.GetMoviesByTitle(title);
+                var movies = _moviesService.GetMoviesWithFilters(title);
                 var movieOverviewModel = movies.Select(x => x.ToMovieOverviewModel()).ToList();
 
                 var movieOverviewDataModel = new MovieOverviewDataModel();
                 movieOverviewDataModel.OverviewMovies = movieOverviewModel;
 
-                var topMovies = _service.GetTopMovies(5);
-                var mostRecentMovies = _service.GetMostRecentMovies(5);
+                movieOverviewDataModel.SidebarData = _sidebarService.GetSidebarData();
 
-                var movieOverviewSidebarModel = new MovieSidebarDataModel();
-                movieOverviewSidebarModel.TopMovies = topMovies.Select(x => x.ToMovieSidebarModel()).ToList();
-                movieOverviewSidebarModel.MostRecentMovies = mostRecentMovies.Select(x=>x.ToMovieSidebarModel()).ToList();
-
-                movieOverviewDataModel.SidebarData = movieOverviewSidebarModel;
                 return View(movieOverviewDataModel);
             }
             catch (MoviesException ex)
@@ -52,7 +56,7 @@ namespace MyMovies.Controllers
         {
             try
             {
-                var movies = _service.GetAllMovies();
+                var movies = _moviesService.GetAllMovies();
                 if (movies.Count == 0)
                 {
                     ViewBag.Message = $"There are no movies to show at this time.";
@@ -74,22 +78,41 @@ namespace MyMovies.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var movieGenres = _movieGenresService.GetAll();
+            var movieGenresToViewModel = movieGenres.Select(x => x.ToMovieGenresViewModel()).ToList();
+            var movieViewModel = new CreateMovieModel();
+            movieViewModel.MovieGenres = movieGenresToViewModel;
+            return View(movieViewModel);
         }
         [HttpPost]
         public IActionResult Create(CreateMovieModel movieModel)
         {
-            var domainModel = movieModel.ToModel();
             if (ModelState.IsValid)
             {
-                _service.CreateMovie(domainModel);
-                return RedirectToAction("Overview");
+                var domainModel = movieModel.ToModel();
+                var response = _moviesService.CreateMovie(domainModel);
+                if (response.Success)
+                {
+                    var logData = new LogData() { Type = LogType.Info, DateCreated = DateTime.Now, Message = $"User with Id {User.FindFirst("Id")} created the movie with id {domainModel.Id} and title {domainModel.Title}" };
+                    _logService.Log(logData);
+                    return RedirectToAction("ManageOverview");
+                }
+                else
+                {
+                    return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+                }
+                
             }
+            var movieGenres = _movieGenresService.GetAll();
+            var movieGenresToViewModel = movieGenres.Select(x => x.ToMovieGenresViewModel()).ToList();
+            movieModel.MovieGenres = movieGenresToViewModel;
+
             return View(movieModel);
         }
         public IActionResult Delete(int id)
         {
-            var response = _service.Delete(id);
+            var userId = Convert.ToInt32(User.FindFirst("Id").Value);
+            var response = _moviesService.Delete(id, userId);
             if (response.Success)
             {
                 return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
@@ -104,8 +127,12 @@ namespace MyMovies.Controllers
         {
             try
             {
-                var movie = _service.GetMovieById(id);
-                return View(movie.ToUpdateMovieModel());
+                var movie = _moviesService.GetMovieById(id);
+                var movieGenres = _movieGenresService.GetAll();
+                var movieGenresToViewModel = movieGenres.Select(x => x.ToMovieGenresViewModel()).ToList();
+                var movieForView = movie.ToUpdateMovieModel();
+                movieForView.MovieGenres = movieGenresToViewModel;
+                return View(movieForView);
             }
             catch (MoviesException ex)
             {
@@ -123,7 +150,8 @@ namespace MyMovies.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var response = _service.Update(movieModel.ToModel());
+                    var userId = int.Parse(User.FindFirst("Id").Value);
+                    var response = _moviesService.Update(movieModel.ToModel(), userId);
                     if (response.Success)
                     {
                         return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
@@ -146,21 +174,17 @@ namespace MyMovies.Controllers
         {
             try
             {
-                var movie = _service.GetMovieDetails(id);
+                var movie = _moviesService.GetMovieDetails(id);
                 if (movie == null)
                 {
                     return RedirectToAction("ErrorNotFound", "Info");
                 }
+                var logData = new LogData() { Type = LogType.Info, DateCreated = DateTime.Now, Message = $"User with Id {User.FindFirst("Id")} checked details for the movie with id {movie.Id} and title {movie.Title}" };
+                _logService.Log(logData);
                 var movieDetails = movie.ToMovieDetailsModel();
 
-                var topMovies = _service.GetTopMovies(5);
-                var mostRecentMovies = _service.GetMostRecentMovies(5);
+                movieDetails.SideBarModel = _sidebarService.GetSidebarData();
 
-                var movieOverviewSidebarModel = new MovieSidebarDataModel();
-                movieOverviewSidebarModel.TopMovies = topMovies.Select(x => x.ToMovieSidebarModel()).ToList();
-                movieOverviewSidebarModel.MostRecentMovies = mostRecentMovies.Select(x => x.ToMovieSidebarModel()).ToList();
-
-                movieDetails.SideBarModel = movieOverviewSidebarModel;
                 return View(movieDetails);
             }
             catch (MoviesException ex)

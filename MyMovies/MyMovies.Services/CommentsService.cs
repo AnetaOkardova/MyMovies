@@ -44,7 +44,7 @@ namespace MyMovies.Services
             return response;
         }
 
-        public StatusModel Delete(int commentId)
+        public StatusModel Delete(int commentId, int userId)
         {
             var response = new StatusModel();
 
@@ -56,6 +56,11 @@ namespace MyMovies.Services
             }
             else
             {
+                if(comment.UserId != userId)
+                {
+                    response.Success = false;
+                    response.Message = $"The comment with ID {comment.Id} is not yours to delete.";
+                }
                 response.Success = true;
                 response.Message = $"The comment with ID {comment.Id} has been successfully deleted.";
 
@@ -75,28 +80,28 @@ namespace MyMovies.Services
             return comment;
         }
 
-        public StatusModel Update(Comment comment)
-        {
-            var response = new StatusModel();
-            var commentToUpdate = _commentsRepository.GetById(comment.Id);
+        //public StatusModel Update(Comment comment)
+        //{
+        //    var response = new StatusModel();
+        //    var commentToUpdate = _commentsRepository.GetById(comment.Id);
 
 
-            if (commentToUpdate == null)
-            {
-                response.Success = false;
-                response.Message = $"The comment with ID {comment.Id} is not found.";
-            }
-            else
-            {
-                commentToUpdate.Message = comment.Message;
-                commentToUpdate.DateModified = DateTime.Now;
+        //    if (commentToUpdate == null)
+        //    {
+        //        response.Success = false;
+        //        response.Message = $"The comment with ID {comment.Id} is not found.";
+        //    }
+        //    else
+        //    {
+        //        commentToUpdate.Message = comment.Message;
+        //        commentToUpdate.DateModified = DateTime.Now;
 
-                _commentsRepository.Update(commentToUpdate);
+        //        _commentsRepository.Update(commentToUpdate);
 
-                response.Success = true;
-                response.Message = $"The comment with ID {comment.Id} has been successfully updated.";
-            }
-            return response;
-        }
+        //        response.Success = true;
+        //        response.Message = $"The comment with ID {comment.Id} has been successfully updated.";
+        //    }
+        //    return response;
+        //}
     }
 }

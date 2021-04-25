@@ -1,0 +1,29 @@
+{"Type":0,"DateCreated":"2021-04-24T00:44:51.9756803+02:00","Message":"{\"RequestPath\":\"/\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:44:54.6958059+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:44:57.330112+02:00","Message":"{\"RequestPath\":\"/Movies/ManageOverview\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:44:57.6355929+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:00.0108287+02:00","Message":"{\"RequestPath\":\"/Movies/Update/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:00.91841+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:06.6882608+02:00","Message":"{\"RequestPath\":\"/Movies/Update/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:19.2551386+02:00","Message":"{\"RequestPath\":\"/Movies/Update/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:19.6507438+02:00","Message":"User with Id 2 updated the movie with id 1 and title Pink Panter 2!"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:19.7088769+02:00","Message":"{\"ResponseStatusCode\":\"302\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:21.698161+02:00","Message":"{\"ResponseStatusCode\":\"302\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:22.3313155+02:00","Message":"{\"RequestPath\":\"/Info/ErrorNotFound\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:22.3422673+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:47.5282249+02:00","Message":"{\"RequestPath\":\"/\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:49.8043556+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:54.1297727+02:00","Message":"{\"RequestPath\":\"/Movies/Details/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:54.774328+02:00","Message":"User with Id Id: 2 checked details for the movie with id 1 and title Pink Panter 2!"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:54.8252608+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:57.5615148+02:00","Message":"{\"RequestPath\":\"/Movies/ManageOverview\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:57.7164549+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:59.6977647+02:00","Message":"{\"RequestPath\":\"/Movies/Update/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:45:59.9453819+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:03.4299225+02:00","Message":"{\"RequestPath\":\"/Movies/Update/1\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:03.5975194+02:00","Message":"User with Id 2 updated the movie with id 1 and title Pink Panter 2"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:03.6102519+02:00","Message":"{\"ResponseStatusCode\":\"302\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:03.6615231+02:00","Message":"{\"RequestPath\":\"/Movies/ManageOverview\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:03.7022658+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:21.2906985+02:00","Message":"{\"RequestPath\":\"/Info/AboutUs\"}"}
+{"Type":0,"DateCreated":"2021-04-24T00:46:21.3302081+02:00","Message":"{\"ResponseStatusCode\":\"200\"}"}

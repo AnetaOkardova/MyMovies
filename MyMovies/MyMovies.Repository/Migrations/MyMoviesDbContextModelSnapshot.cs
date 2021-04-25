@@ -70,13 +70,12 @@ namespace MyMovies.Repository.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MovieGenreId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -88,7 +87,24 @@ namespace MyMovies.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieGenreId");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MyMovies.Models.MovieGenre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MovieGenres");
                 });
 
             modelBuilder.Entity("MyMovies.Models.User", b =>
@@ -147,6 +163,15 @@ namespace MyMovies.Repository.Migrations
                     b.HasOne("MyMovies.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyMovies.Models.Movie", b =>
+                {
+                    b.HasOne("MyMovies.Models.MovieGenre", "MovieGenre")
+                        .WithMany("Movies")
+                        .HasForeignKey("MovieGenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

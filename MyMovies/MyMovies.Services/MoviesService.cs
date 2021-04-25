@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using MyMovies.Common.Exceptions;
+using MyMovies.Common.Models;
+using MyMovies.Common.Services;
 using MyMovies.Models;
 using MyMovies.Repository.Interfaces;
 using MyMovies.Services.DtoModels;
@@ -12,12 +14,17 @@ namespace MyMovies.Services
     public class MoviesService : IMoviesService
     {
         private readonly IUserRepository _userRepository;
-
+        private readonly ICommentsRepository _commentsRepository;
+        private readonly IMovieGenresService _movieGenresService;
+        private readonly ILogService _logService;
         private readonly IMoviesRepository _moviesRepository;
-        public MoviesService(IMoviesRepository moviesRepository, IUserRepository userRepository)
+        public MoviesService(IMoviesRepository moviesRepository, IUserRepository userRepository, ICommentsRepository commentsRepository, IMovieGenresService movieGenresService, ILogService logService)
         {
             _moviesRepository = moviesRepository;
             _userRepository = userRepository;
+            _commentsRepository = commentsRepository;
+            _movieGenresService = movieGenresService;
+            _logService = logService;
         }
 
         public List<Movie> GetAllMovies()
@@ -34,30 +41,27 @@ namespace MyMovies.Services
 
             return movie;
         }
-        public List<Movie> GetMoviesByTitle(string title)
+        public List<Movie> GetMoviesWithFilters(string title)
         {
-            if (title == null)
-            {
-                return GetAllMovies();
-            }
-            else
-            {
-                var movies = _moviesRepository.GetByTitle(title);
-
-                if (movies.Count == 0)
-                {
-                    throw new MoviesException($"There is no movie containing {title} in it's title");
-                }
-                return movies;
-            }
+            return _moviesRepository.GetMoviesWithFilters(title);
         }
 
-        public void CreateMovie(Movie movie)
+        public StatusModel CreateMovie(Movie movie)
         {
+            var response = new StatusModel();
+
+            if (!_movieGenresService.CheckIfExists(movie.MovieGenreId))
+            {
+                response.Success = false;
+                response.Message = $"There is no movie genre with name {movie.MovieGenre.Name}";
+            };
+
             movie.DateCreated = DateTime.Now;
             _moviesRepository.Add(movie);
+
+            return response;
         }
-        public StatusModel Delete(int id)
+        public StatusModel Delete(int id, int userId)
         {
             var response = new StatusModel();
 
@@ -71,12 +75,22 @@ namespace MyMovies.Services
             {
                 response.Success = true;
                 response.Message = $"The movie with ID {id} has been successfully deleted.";
+                var movieComments = _commentsRepository.GetByMovieId(movie.Id);
+                if (movieComments.Count != 0)
+                {
+                    foreach (var comment in movieComments)
+                    {
+                        _commentsRepository.Delete(comment);
+                    }
+                }
 
                 _moviesRepository.Delete(movie);
+                var logData = new LogData() { Type = LogType.Info, DateCreated = DateTime.Now, Message = $"User with Id {userId} deleted the movie with id {movie.Id} and title {movie.Title}" };
+                _logService.Log(logData);
             }
             return response;
         }
-        public StatusModel Update(Movie movie)
+        public StatusModel Update(Movie movie, int userId)
         {
             var response = new StatusModel();
             var movieToUpdate = _moviesRepository.GetById(movie.Id);
@@ -92,14 +106,16 @@ namespace MyMovies.Services
                 movieToUpdate.Title = movie.Title;
                 movieToUpdate.ImageURL = movie.ImageURL;
                 movieToUpdate.Description = movie.Description;
-                movieToUpdate.Genre = movie.Genre;
                 movieToUpdate.Duration = movie.Duration;
+                movieToUpdate.MovieGenreId = movie.MovieGenreId;
                 movieToUpdate.DateUpdated = DateTime.Now;
 
                 _moviesRepository.Update(movieToUpdate);
 
                 response.Success = true;
                 response.Message = $"The movie with ID {movie.Id} has been successfully updated.";
+                var logData = new LogData() { Type = LogType.Info, DateCreated = DateTime.Now, Message = $"User with Id {userId} updated the movie with id {movie.Id} and title {movie.Title}" };
+                _logService.Log(logData);
             }
             return response;
         }
@@ -129,7 +145,7 @@ namespace MyMovies.Services
         public List<Movie> GetMostRecentMovies(int count)
         {
             var movies = _moviesRepository.GetMostRecentMovies(count);
-           
+
             if (movies.Count == 0)
             {
                 throw new MoviesException($"There are no movies at this time.");

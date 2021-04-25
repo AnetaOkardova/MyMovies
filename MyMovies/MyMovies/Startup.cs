@@ -6,8 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyMovies.Common;
+using MyMovies.Common.Services;
+using MyMovies.Custom;
 using MyMovies.Repository;
 using MyMovies.Repository.Interfaces;
+using MyMovies.Service;
 using MyMovies.Services;
 using MyMovies.Services.Interfaces;
 using System;
@@ -29,12 +33,12 @@ namespace MyMovies
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyMoviesDbContext>(x => x.UseSqlServer("Server=(localDb)\\MSSQLLocalDB;Database= MyMovies; Trusted_Connection=True;"));
+            services.AddDbContext<MyMoviesDbContext>(x => x.UseSqlServer(Configuration.GetConnectionString("MyMoviesDb")));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                    options.ExpireTimeSpan = TimeSpan.FromDays(int.Parse(Configuration["CookieExpirationPeriod"]));
                     options.LoginPath = "/Auth/SignIn";
                     options.AccessDeniedPath = "/Auth/AccessDenied";
                     //options.SlidingExpiration = false; -- da se iskluci i pokraj aktivnost
@@ -49,19 +53,26 @@ namespace MyMovies
                 });
             });
 
+            services.Configure<SideBarConfig>(Configuration.GetSection("SideBarConfig"));
             services.AddControllersWithViews();
             services.AddTransient<IMoviesService, MoviesService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<ISideBarService, SideBarService>();
+            services.AddTransient<ILogService, LogService>();
+            services.AddTransient<IMovieGenresService, MovieGenresService>();
+
+            
+
+
             //services.AddTransient<IMoviesRepository, MoviesMemoryRepository>();
             //services.AddTransient<IMoviesRepository, MoviesFileRepository>();
             //services.AddTransient<IMoviesRepository, MoviesSqlRepository>();
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IUserRepository, UsersRepository>();
-           
             services.AddTransient<ICommentsRepository, CommentsRepository>();
-
+            services.AddTransient<IMovieGenresRepository, MovieGenresRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +96,9 @@ namespace MyMovies
             app.UseAuthentication();
 
             app.UseAuthorization();
+            
+            app.UseMiddleware<ExceptionLoggingMiddleware>();
+            app.UseMiddleware<RequestResponseLogMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

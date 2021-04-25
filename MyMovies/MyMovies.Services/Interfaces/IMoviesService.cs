@@ -9,14 +9,14 @@ namespace MyMovies.Services.Interfaces
     public interface IMoviesService
     {
         List<Movie> GetAllMovies();
-        List<Movie> GetMoviesByTitle(string title);
+        List<Movie> GetMoviesWithFilters(string title);
         Movie GetMovieById(int id);
         Movie GetMovieDetails(int id);
 
 
-        void CreateMovie(Movie movie);
-        StatusModel Delete(int id);
-        StatusModel Update(Movie movie);
+        StatusModel CreateMovie(Movie movie);
+        StatusModel Delete(int id, int userId);
+        StatusModel Update(Movie movie, int userId);
         List<Movie> GetTopMovies(int count);
         List<Movie> GetMostRecentMovies(int count);
 

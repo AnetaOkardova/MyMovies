@@ -13,9 +13,9 @@ namespace MyMovies.Mappings
                 Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
-                Genre = movie.Genre,
                 ImageURL = movie.ImageURL,
-                Duration = movie.Duration
+                Duration = movie.Duration,
+                MovieGenreId = movie.MovieGenreId
             };
         }
 
@@ -25,11 +25,11 @@ namespace MyMovies.Mappings
             {
                 Id = movie.Id,
                 Title = movie.Title,
-                Genre = movie.Genre,
                 ImageURL = movie.ImageURL,
                 Duration = movie.Duration,
                 Views = movie.Views,
-                Description = movie.Description
+                Description = movie.Description,
+                MovieGenre = movie.MovieGenre.Name
             };
         }
         public static UpdateUserModel ToUpdateUserModel(this User user)
@@ -55,15 +55,23 @@ namespace MyMovies.Mappings
             };
         }
 
+        public static MovieGenresViewModel ToMovieGenresViewModel(this MovieGenre movieGenre)
+        {
+            return new MovieGenresViewModel()
+            {
+                Id = movieGenre.Id,
+                Name = movieGenre.Name
+            };
+        }
         public static CreateMovieModel ToCreateMovieModel(this Movie movie)
         {
             return new CreateMovieModel()
             {
                 Title = movie.Title,
                 Description = movie.Description,
-                Genre = movie.Genre,
                 ImageURL = movie.ImageURL,
-                Duration = movie.Duration
+                Duration = movie.Duration,
+                MovieGenreId = movie.MovieGenreId
             };
         }
 

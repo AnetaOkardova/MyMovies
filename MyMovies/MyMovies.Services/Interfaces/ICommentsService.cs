@@ -9,8 +9,8 @@ namespace MyMovies.Services.Interfaces
     public interface ICommentsService
     {
         StatusModel Add(string comment, int movieId, int userId);
-        StatusModel Delete(int commentId);
+        StatusModel Delete(int commentId, int userId);
         Comment GetCommentById(int id);
-        StatusModel Update(Comment comment);
+        //StatusModel Update(Comment comment);
     }
 }

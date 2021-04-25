@@ -56,7 +56,7 @@ namespace MyMovies.Repository
             File.WriteAllText(Path, serilized);
         }
 
-        public List<Movie> GetByTitle(string title)
+        public List<Movie> GetMoviesWithFilters(string title)
         {
             throw new NotImplementedException();
         }

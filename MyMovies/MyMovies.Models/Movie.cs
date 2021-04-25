@@ -13,9 +13,6 @@ namespace MyMovies.Models
         public string Title { get; set; }
 
         [Required]
-        public string Genre { get; set; }
-
-        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -28,5 +25,7 @@ namespace MyMovies.Models
         public DateTime? DateUpdated { get; set; }
         public List<Comment> Comments { get; set; }
         public int Views { get; set; }
+        public int MovieGenreId { get; set; }
+        public MovieGenre MovieGenre { get; set; }
     }
 }

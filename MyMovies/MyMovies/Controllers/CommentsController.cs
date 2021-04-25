@@ -26,67 +26,38 @@ namespace MyMovies.Controllers
             var response = _service.Add(comment, movieId, userId);
             if (response.Success)
             {
-                return RedirectToAction("Overview", "Movies");
+                return RedirectToAction("Details", "Movies", new { id = movieId });
             }
             else
             {
                 return RedirectToAction("ActionNotSuccessful", "Info", new { Message = response.Message });
             }
         }
-
+        [Authorize]
         public IActionResult Delete(int id)
         {
-            var response = _service.Delete(id);
-            if (response.Success)
+            try
             {
-                return RedirectToAction("Overview", "Movies");
+                var userId = int.Parse(User.FindFirst("Id").Value);
+                var commentId = id;
+                var comment = _service.GetCommentById(id);
+                var movieId = comment.MovieId;
+                var response = _service.Delete(commentId, userId);
+                if (response.Success)
+                {
+                    return RedirectToAction("Details", "Movies", new { id = movieId });
+                }
+                else
+                {
+                    return RedirectToAction("Overview", "Movies", new { ErrorMessage = response.Message });
+                }
             }
-            else
+            catch (MoviesException ex)
             {
-                return RedirectToAction("Overview", "Movies", new { ErrorMessage = response.Message });
+                return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
             }
-        }
-        //[HttpGet]
-        //public IActionResult Update(int id)
-        //{
-        //    try
-        //    {
-        //        var comment = _service.GetCommentById(id);
-        //        return View(comment.ToUpdateCommentModel());
-        //    }
-        //    catch (MoviesException ex)
-        //    {
-        //        return RedirectToAction("ActionNotSuccessful", "Info", new { Message = ex.Message });
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return RedirectToAction("ErrorNotFound", "Info");
-        //    }
-        //}
-        //[HttpPost]
-        //public IActionResult Update(UpdateCommentModel commentModel)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var response = _service.Update(commentModel.ToModel());
-        //            if (response.Success)
-        //            {
-        //                return RedirectToAction("Overview", "Movies", new { SuccessMessage = response.Message });
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("Overview", "Movies", new { ErrorMessage = response.Message });
-        //            }
-        //        }
 
-        //        return View(commentModel);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return RedirectToAction("ErrorNotFound", "Info");
-        //    }
-        //}
+        }
+   
     }
 }

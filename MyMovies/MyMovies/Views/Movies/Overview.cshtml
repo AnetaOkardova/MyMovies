@@ -26,7 +26,7 @@
                         <img style="width: 100%; height: 300px" src="@movie.ImageURL" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">@movie.Title</h5>
-                            <p class="card-text">Genre: @movie.Genre/Duration: @movie.Duration</p>
+                            <p class="card-text"><span class="badge badge-secondary">@movie.MovieGenre</span> Duration: @movie.Duration</p>
                             <p>Views: @movie.Views</p>
                             <div class="card-text movieDescription">@movie.Description</div>
                             <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">See description</a>

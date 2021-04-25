@@ -15,7 +15,6 @@ namespace MyMovies.Repository
             {
                 Id = 1,
                 Title = "Home alone",
-                Genre = "Comedy",
                 Description = "Sth",
                 Duration = 100,
                 ImageURL = "https://m.media-amazon.com/images/M/MV5BMzFkM2YwOTQtYzk2Mi00N2VlLWE3NTItN2YwNDg1YmY0ZDNmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
@@ -24,7 +23,6 @@ namespace MyMovies.Repository
             {
                 Id = 2,
                 Title = "Home alone",
-                Genre = "Comedy",
                 Description = "Sth",
                 Duration = 150,
                 ImageURL = "https://m.media-amazon.com/images/M/MV5BMzFkM2YwOTQtYzk2Mi00N2VlLWE3NTItN2YwNDg1YmY0ZDNmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
@@ -56,7 +54,7 @@ namespace MyMovies.Repository
             return maxId + 1;
         }
 
-        public List<Movie> GetByTitle(string title)
+        public List<Movie> GetMoviesWithFilters(string title)
         {
             throw new NotImplementedException();
         }

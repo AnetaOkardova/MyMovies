@@ -9,6 +9,5 @@ namespace MyMovies.ViewModels
     {
         public List<MovieSidebarModel> TopMovies { get; set; } = new List<MovieSidebarModel>();
         public List<MovieSidebarModel> MostRecentMovies { get; set; } = new List<MovieSidebarModel>();
-
     }
 }

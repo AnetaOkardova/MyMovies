@@ -12,7 +12,7 @@ namespace MyMovies.Mappings
                 Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
-                Genre = movie.Genre,
+                MovieGenreId = movie.MovieGenreId,
                 ImageURL = movie.ImageURL,
                 Duration = movie.Duration
             };
@@ -39,7 +39,7 @@ namespace MyMovies.Mappings
                 Email = user.Email,
             };
         }
-        
+
         public static Movie ToModel(this MovieSidebarModel sidebarMovieModel)
         {
             return new Movie()
@@ -56,12 +56,20 @@ namespace MyMovies.Mappings
             {
                 Title = movie.Title,
                 Description = movie.Description,
-                Genre = movie.Genre,
                 ImageURL = movie.ImageURL,
-                Duration = movie.Duration
+                Duration = movie.Duration,
+                MovieGenreId = movie.MovieGenreId
             };
         }
 
+        public static MovieGenre ToModel(this MovieGenresViewModel movieGenresView)
+        {
+            return new MovieGenre()
+            {
+                Id = movieGenresView.Id,
+                Name = movieGenresView.Name,
+            };
+        }
         public static Movie ToModel(this MovieDetailsModel movie)
         {
             return new Movie()
@@ -99,7 +107,7 @@ namespace MyMovies.Mappings
             {
                 Id = users.Id,
                 Username = users.Username,
-                IsAdmin = users.IsAdmin                
+                IsAdmin = users.IsAdmin
             };
         }
     }
